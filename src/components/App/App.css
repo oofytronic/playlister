@@ -1,0 +1,39 @@
+.main-nav {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.main-nav ul {
+	display: flex;
+	gap: 0.5rem;
+	list-style-type: none;
+}
+
+.componentArea {
+	max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.playlist {
+	background: white;
+	color: black;
+	width: 100%;
+	height: 80%;
+}
+
+.playlist-header {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.track {
+	display: flex;
+	justify-content: space-between;
+}
+
+.track-info {
+	display: flex;
+	gap: 0.5rem;
+}
