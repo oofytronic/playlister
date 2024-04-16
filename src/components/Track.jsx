@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-function Track({track}) {
-
+function Track({track, children}) {
 	return (
 		<div className="track">
 			<div className="track-info">
@@ -9,7 +8,7 @@ function Track({track}) {
 				<p>{track.artist}</p>
 			</div>
 
-			<button>Delete</button>
+			{children}
 		</div>
 	)
 }
