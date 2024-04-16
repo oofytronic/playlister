@@ -79,7 +79,7 @@ const App = () => {
 			<Nav />
 			<div className="grid-area">
 				<div>
-					<h1 style={{textAlign: 'center'}}>Current Playlist</h1>
+					<h1 style={{textAlign: 'start'}}>Current Playlist</h1>
 					{/* Component Area */}
 					<div className="componentArea">
 						<div className="playlist">
@@ -102,7 +102,7 @@ const App = () => {
 						<h2>Search Songs</h2>
 						<input type="search" />
 
-						<div>
+						<div className="">
 							{searchedTracks.map(track =>
 								<Track track={track} key={track.id}>
 									<Button label="Add" onClick={() => handleTrackAdd(track)} />
