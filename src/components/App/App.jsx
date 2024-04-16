@@ -78,14 +78,14 @@ const App = () => {
 		<div className="screen">
 			<Nav />
 			<div className="grid-area">
-				<div>
-					<h1 style={{textAlign: 'start'}}>Current Playlist</h1>
+				<div className="flex flex-col gap-4">
+					<h1 className="text-5xl">Current Playlist</h1>
 					{/* Component Area */}
 					<div className="componentArea">
-						<div className="playlist">
+						<div className="playlist flex flex-col gap-2">
 							<div className="playlist-header">
 								<div style={{background: 'gray', width: '150px', height: '150px'}}></div>
-								<h2>Playlist Title</h2>
+								<h2 className="text-2xl">Playlist Title</h2>
 							</div>
 							{playlistTracks.map(track =>
 								<Track track={track} key={track.id}>
@@ -102,7 +102,7 @@ const App = () => {
 						<h2>Search Songs</h2>
 						<input type="search" />
 
-						<div className="">
+						<div className="flex flex-col gap-2">
 							{searchedTracks.map(track =>
 								<Track track={track} key={track.id}>
 									<Button label="Add" onClick={() => handleTrackAdd(track)} />
