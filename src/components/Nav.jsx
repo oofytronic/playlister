@@ -4,7 +4,7 @@ function Track() {
 
 	return (
 		<nav className="main-nav">
-			<p>SonicStream</p>
+			<p>BeatBridge</p>
 
 			<ul>
 				<li><button>Search</button></li>

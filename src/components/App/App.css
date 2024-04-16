@@ -1,13 +1,30 @@
+.screen { 
+	display: grid;
+	grid-template-rows: 10dvh 90dvh;
+}
+
 .main-nav {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
+	padding: 0 2rem;
+	height: 100%;
+	border-bottom: 1px solid white;
 }
 
 .main-nav ul {
 	display: flex;
 	gap: 0.5rem;
 	list-style-type: none;
+}
+
+.grid-area {
+	display: grid;
+	grid-template-columns: 75% 25%;
+	gap: 2rem;
+	padding: 0 2rem;
+	height: 100%;
 }
 
 .componentArea {
@@ -36,4 +53,17 @@
 .track-info {
 	display: flex;
 	gap: 0.5rem;
+}
+
+.console { 
+	height: 100%;
+	border-left: 1px white solid;
+}
+
+.search-consolde {
+	width: 100%;
+}
+
+.search-console input {
+	width: 100%;
 }

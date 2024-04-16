@@ -32,23 +32,36 @@ const App = () => {
 
 	return (
 		<>
+		<div className="screen">
 			<Nav />
-			<h1 style={{textAlign: 'center'}}>Current Playlist</h1>
-			{/* Component Area */}
-			<div className="componentArea">
-				<div className="playlist">
-					<div className="playlist-header">
-						<div style={{background: 'gray', width: '150px', height: '150px'}}></div>
-						<h2>Playlist Title</h2>
+			<div className="grid-area">
+				<div>
+					<h1 style={{textAlign: 'center'}}>Current Playlist</h1>
+					{/* Component Area */}
+					<div className="componentArea">
+						<div className="playlist">
+							<div className="playlist-header">
+								<div style={{background: 'gray', width: '150px', height: '150px'}}></div>
+								<h2>Playlist Title</h2>
+							</div>
+							{playlistTracks.map(track => <Track track={track} key={track.song} />)}
+						</div>
 					</div>
-					{playlistTracks.map(track => <Track track={track} key={track.song} />)}
+				</div>
+
+				{/* Console Area */}
+				<div className="console">
+					<div className="search-console">
+						<h2>Search Songs</h2>
+						<input type="search" />
+
+						<div>
+							{playlistTracks.map(track => <Track track={track} key={track.song} />)}
+						</div>
+					</div>
 				</div>
 			</div>
-
-			{/* Console Area */}
-			<div className="console">
-
-			</div>
+		</div>
 		</>
 	)
 }
