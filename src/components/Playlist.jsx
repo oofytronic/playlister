@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Track from './Track.jsx';
 import Button from './Button.jsx';
 
-function Playlist({playlist, setPlaylists, setActivePlaylist}) {
+function Playlist({playlist, playlists, setPlaylists, setActivePlaylist}) {
 
   const addPlaylist = (newPlaylist) => {
     setPlaylists(prev => [...prev, newPlaylist]);
@@ -17,7 +17,7 @@ function Playlist({playlist, setPlaylists, setActivePlaylist}) {
     setPlaylists(prev => prev.map(playlist => playlist.id === updatedPlaylist.id ? updatedPlaylist : playlist));
   };
 
-  const addTrackToPlaylist = (playlistId, newTrack) => {
+  const addTrackToPlaylist = (playlists, playlistId, newTrack) => {
     setPlaylists(prev => prev.map(playlist => {
       if (playlist.id === playlistId) {
         return {
@@ -39,6 +39,8 @@ function Playlist({playlist, setPlaylists, setActivePlaylist}) {
       }
       return playlist;
     }));
+
+    // setActivePlaylist(prev => prev.find(playlist => playlist.id === playlistId));
   };
 
   return (

@@ -93,14 +93,23 @@ const App = () => {
 	const [activeConsole, setActiveConsole] = useState('playlists');
 	const [activePlaylist, setActivePlaylist] = useState();
 
-	function handleTrackAdd(trackToAdd) {
-		if (playlistTracks.find(track => track.id === trackToAdd.id)) {
-	      alert('Track is already in the playlist');
-	      return;
-	    }
+	const handleTrackAdd = (trackToAdd) => {
+	    // setPlaylistTracks(prevTracks => [...prevTracks, trackToAdd]);
+		setPlaylists(prev => prev.map(playlist => {
+		  if (playlist.id === activePlaylist.id) {
+		  	if (playlist.tracks.find(track => track.id === trackToAdd.id)) {
+		      alert('Track is already in the playlist');
+		      return;
+		    }
 
-	    setPlaylistTracks(prevTracks => [...prevTracks, trackToAdd]);
-	}
+		    return {
+		      ...playlist,
+		      tracks: [...playlist.tracks, trackToAdd]
+		    };
+		  }
+		  return playlist;
+		}));
+	};
 
 	function handleTrackDelete(trackId) {
 		setPlaylistTracks(currentTracks => currentTracks.filter(track => track.id !== trackId));
@@ -116,7 +125,7 @@ const App = () => {
 					<h1 className="text-5xl mt-2">Current Playlist</h1>
 					{/* Component Area */}
 					<div className="componentArea">
-						{activePlaylist && <Playlist playlist={activePlaylist} setPlaylists={setPlaylists} />}
+						{activePlaylist && <Playlist playlist={activePlaylist} playlists={playlists} setPlaylists={setPlaylists} setActivePlaylist={setActivePlaylist} />}
 					</div>
 				</div>
 
