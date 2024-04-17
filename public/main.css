@@ -554,6 +554,10 @@ video {
   --tw-contain-style:  ;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .flex {
   display: flex;
 }
