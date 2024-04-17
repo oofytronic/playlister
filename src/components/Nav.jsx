@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
-function Track() {
+function Nav({onChangeConsole}) {
 
 	return (
 		<nav className="main-nav">
 			<p>BeatBridge</p>
 
 			<ul>
-				<li><button>Search</button></li>
-				<li><button>Playlists</button></li>
+				<li><button onClick={() => onChangeConsole('playlists')}>Playlists</button></li>
+				<li><button onClick={() => onChangeConsole('search')}>Search</button></li>
 			</ul>
 		</nav>
 	)
 }
 
-export default Track;
+export default Nav;

@@ -7,7 +7,7 @@ function SearchConsole({searchedTracks, onAddTrack}) {
   return (
     <>
       <div className="search-console">
-          <h2>Search Songs</h2>
+          <h2 className="text-5xl mt-2">Search Songs</h2>
           <input type="search" />
 
           <div className="flex flex-col gap-2">

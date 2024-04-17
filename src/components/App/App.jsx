@@ -6,35 +6,8 @@ import Track from '../Track.jsx';
 import Button from '../Button.jsx';
 import Playlist from '../Playlist.jsx';
 
+import PlaylistConsole from '../PlaylistConsole.jsx';
 import SearchConsole from '../SearchConsole.jsx';
-
-const tempTrackModel = [
-	{
-		song: 'Fireflies',
-		artist: 'Owl City',
-		id: 1
-	},
-	{
-		song: 'Montana',
-		artist: 'Owl City',
-		id: 2
-	},
-	{
-		song: 'Dinosaur Park',
-		artist: 'Owl City',
-		id: 3
-	},
-	{
-		song: 'Cave In',
-		artist: 'Owl City',
-		id: 4
-	},
-	{
-		song: 'Vanilla Twilight',
-		artist: 'Owl City',
-		id: 5
-	}
-];
 
 const tempSearchModel = [
 	{
@@ -93,7 +66,7 @@ const tempPlaylistModel = [
     },
     {
 		id: 'playlist2',
-		name: 'Por Blue Vibes',
+		name: 'Port Blue Vibes',
 		tracks: [
 			{
 				song: 'Fireflies',
@@ -116,8 +89,9 @@ const tempPlaylistModel = [
 
 const App = () => {
 	const [playlists, setPlaylists] = useState(tempPlaylistModel);
-	const [playlistTracks, setPlaylistTracks] = useState(tempTrackModel);
 	const [searchedTracks, setSearchedTracks] = useState(tempSearchModel);
+	const [activeConsole, setActiveConsole] = useState('playlists');
+	const [activePlaylist, setActivePlaylist] = useState();
 
 	function handleTrackAdd(trackToAdd) {
 		if (playlistTracks.find(track => track.id === trackToAdd.id)) {
@@ -135,19 +109,21 @@ const App = () => {
 	return (
 		<>
 		<div className="screen">
-			<Nav />
+			<Nav onChangeConsole={setActiveConsole} />
+
 			<div className="grid-area">
 				<div className="flex flex-col gap-4">
 					<h1 className="text-5xl mt-2">Current Playlist</h1>
 					{/* Component Area */}
 					<div className="componentArea">
-						<Playlist playlists={playlists} setPlaylists={setPlaylists} />
+						{activePlaylist && <Playlist playlist={activePlaylist} setPlaylists={setPlaylists} />}
 					</div>
 				</div>
 
 				{/* Console Area */}
 				<div className="console">
-					<SearchConsole searchedTracks={searchedTracks} onAddTrack={handleTrackAdd} />
+        			{activeConsole === 'playlists' && <PlaylistConsole  playlists={playlists} onClickPlaylist={setActivePlaylist} />}
+        			{activeConsole === 'search' && <SearchConsole searchedTracks={searchedTracks} onAddTrack={handleTrackAdd} />}
 				</div>
 			</div>
 		</div>

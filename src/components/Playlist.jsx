@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Track from './Track.jsx';
 import Button from './Button.jsx';
 
-function Playlist({playlists, setPlaylists}) {
+function Playlist({playlist, setPlaylists, setActivePlaylist}) {
 
   const addPlaylist = (newPlaylist) => {
     setPlaylists(prev => [...prev, newPlaylist]);
@@ -45,18 +45,18 @@ function Playlist({playlists, setPlaylists}) {
     <div className="playlist flex flex-col gap-2">
       <div className="playlist-header">
         <div style={{background: 'gray', width: '150px', height: '150px'}}></div>
-        <h2 className="text-2xl">Playlist Title</h2>
+        <h2 className="text-2xl">{playlist.name}</h2>
       </div>
       <div>
         <Button label="Save Playlist" />
         <Button label="Sync With" />
       </div>
-      {/*{playlistTracks.map(track =>
+      {playlist.tracks.map(track =>
         <Track track={track} key={track.id}>
           <Button label="Change Order" />
-          <Button label="Delete" onClick={() => handleTrackDelete(track.id)} />
+          <Button label="Delete" onClick={() => removeTrackFromPlaylist(playlist.id, track.id)} />
         </Track>
-      )}*/}
+      )}
     </div>
   )
 }
