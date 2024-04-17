@@ -7,8 +7,9 @@ function Track({track, children}) {
 				<p>{track.song}</p>
 				<p>{track.artist}</p>
 			</div>
-
+			<div>
 			{children}
+			</div>
 		</div>
 	)
 }

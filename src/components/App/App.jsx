@@ -5,6 +5,8 @@ import Nav from '../Nav.jsx';
 import Track from '../Track.jsx';
 import Button from '../Button.jsx';
 
+import SearchConsole from '../SearchConsole.jsx';
+
 const tempTrackModel = [
 	{
 		song: 'Fireflies',
@@ -87,8 +89,13 @@ const App = () => {
 								<div style={{background: 'gray', width: '150px', height: '150px'}}></div>
 								<h2 className="text-2xl">Playlist Title</h2>
 							</div>
+							<div>
+								<Button label="Save Playlist" />
+								<Button label="Sync With" />
+							</div>
 							{playlistTracks.map(track =>
 								<Track track={track} key={track.id}>
+									<Button label="Change Order" />
 									<Button label="Delete" onClick={() => handleTrackDelete(track.id)} />
 								</Track>
 							)}
@@ -98,18 +105,7 @@ const App = () => {
 
 				{/* Console Area */}
 				<div className="console">
-					<div className="search-console">
-						<h2>Search Songs</h2>
-						<input type="search" />
-
-						<div className="flex flex-col gap-2">
-							{searchedTracks.map(track =>
-								<Track track={track} key={track.id}>
-									<Button label="Add" onClick={() => handleTrackAdd(track)} />
-								</Track>
-							)}
-						</div>
-					</div>
+					<SearchConsole searchedTracks={searchedTracks} onAddTrack={handleTrackAdd} />
 				</div>
 			</div>
 		</div>

@@ -1,3 +1,13 @@
+button {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid white;
+}
+
+button:hover {
+	background: white;
+	color: #0f0e0e;
+}
+
 .screen { 
 	display: grid;
 	grid-template-rows: 8dvh 92dvh;
