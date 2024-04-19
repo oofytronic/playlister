@@ -4,7 +4,7 @@ function Nav({onChangeConsole}) {
 
 	return (
 		<nav className="main-nav">
-			<p>BeatBridge</p>
+			<p><a href="/">BeatBridge</a></p>
 
 			<ul>
 				<li><button onClick={() => onChangeConsole('playlists')}>Playlists</button></li>
