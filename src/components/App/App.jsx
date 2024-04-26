@@ -117,10 +117,6 @@ const App = () => {
 		}));
 	};
 
-	function handleTrackDelete(trackId) {
-		setPlaylistTracks(currentTracks => currentTracks.filter(track => track.id !== trackId));
-	}
-
 	const addPlaylist = (newPlaylist) => {
 	    setPlaylists(prev => [...prev, newPlaylist]);
 	};
