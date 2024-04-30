@@ -1,203 +1,13 @@
-// import { useState, useEffect } from 'react';
-// import './App.css';
-
-// import Nav from '../Nav.jsx';
-// import Track from '../Track.jsx';
-// import Button from '../Button.jsx';
-// import Playlist from '../Playlist.jsx';
-
-// import PlaylistConsole from '../PlaylistConsole.jsx';
-// import SearchConsole from '../SearchConsole.jsx';
-
-// const tempSearchModel = [
-// 	{
-// 		song: 'Cave In',
-// 		artist: 'Owl City',
-// 		id: 4
-// 	},
-// 	{
-// 		song: 'All My Friends',
-// 		artist: 'Owl City',
-// 		id: 7
-// 	},
-// 	{
-// 		song: 'Shine',
-// 		artist: 'Owl City',
-// 		id: 8
-// 	},
-// 	{
-// 		song: 'Wolf Bite',
-// 		artist: 'Owl City',
-// 		id: 9
-// 	}
-// ];
-
-// async function fetchPlaylists() {
-// 	return [
-// 		{
-// 			id: 'playlist1',
-// 			name: 'Owl City Hits',
-// 			tracks: [
-// 				{
-// 					song: 'Fireflies',
-// 					artist: 'Owl City',
-// 					id: 1
-// 				},
-// 				{
-// 					song: 'Montana',
-// 					artist: 'Owl City',
-// 					id: 2
-// 				},
-// 				{
-// 					song: 'Dinosaur Park',
-// 					artist: 'Owl City',
-// 					id: 3
-// 				},
-// 				{
-// 					song: 'Cave In',
-// 					artist: 'Owl City',
-// 					id: 4
-// 				},
-// 				{
-// 					song: 'Vanilla Twilight',
-// 					artist: 'Owl City',
-// 					id: 5
-// 				}
-// 			]
-// 	    },
-// 	    {
-// 			id: 'playlist2',
-// 			name: 'Port Blue Vibes',
-// 			tracks: [
-// 				{
-// 					song: 'Fireflies',
-// 					artist: 'Port Blue',
-// 					id: 11
-// 				},
-// 				{
-// 					song: 'Montana',
-// 					artist: 'Port Blue',
-// 					id: 12
-// 				},
-// 				{
-// 					song: 'Dinosaur Park',
-// 					artist: 'Port Blue',
-// 					id: 13
-// 				}
-// 			]
-// 	    }
-// 	]
-// }
-
-// const App = () => {
-// 	const [playlists, setPlaylists] = useState([]);
-// 	const [searchedTracks, setSearchedTracks] = useState(tempSearchModel);
-// 	const [activeConsole, setActiveConsole] = useState('playlists');
-// 	const [activePlaylist, setActivePlaylist] = useState();
-
-// 	useEffect(() => {
-// 		fetchPlaylists().then(data => setPlaylists(data));
-// 	}, []);
-
-// 	const handleTrackAdd = (trackToAdd) => {
-// 	    // setPlaylistTracks(prevTracks => [...prevTracks, trackToAdd]);
-// 		setPlaylists(prev => prev.map(playlist => {
-// 		  if (playlist.id === activePlaylist.id) {
-// 		  	if (playlist.tracks.find(track => track.id === trackToAdd.id)) {
-// 		      alert('Track is already in the playlist');
-// 		      return;
-// 		    }
-
-// 		    return {
-// 		      ...playlist,
-// 		      tracks: [...playlist.tracks, trackToAdd]
-// 		    };
-// 		  }
-// 		  return playlist;
-// 		}));
-// 	};
-
-// 	const addPlaylist = (newPlaylist) => {
-// 	    setPlaylists(prev => [...prev, newPlaylist]);
-// 	};
-
-// 	const deletePlaylist = (playlistId) => {
-// 	setPlaylists(prev => prev.filter(playlist => playlist.id !== playlistId));
-// 	};
-
-// 	const updatePlaylist = (updatedPlaylist) => {
-// 	setPlaylists(prev => prev.map(playlist => playlist.id === updatedPlaylist.id ? updatedPlaylist : playlist));
-// 	};
-
-// 	const addTrackToPlaylist = (playlists, playlistId, newTrack) => {
-// 	setPlaylists(prev => prev.map(playlist => {
-// 	  if (playlist.id === playlistId) {
-// 	    return {
-// 	      ...playlist,
-// 	      tracks: [...playlist.tracks, newTrack]
-// 	    };
-// 	  }
-// 	  return playlist;
-// 	}));
-// 	};
-
-// 	const handleDeleteTrack = (playlistId, trackId) => {
-// 		setPlaylists(prev => prev.map(playlist => {
-// 		  if (playlist.id === playlistId) {
-// 		    return {
-// 		      ...playlist,
-// 		      tracks: playlist.tracks.filter(track => track.id !== trackId)
-// 		    };
-// 		  }
-// 		  return playlist;
-// 		}));
-// 	};
-
-// 	return (
-// 		<>
-// 		<div className="screen">
-// 			<Nav onChangeConsole={setActiveConsole} />
-
-// 			<div className="grid-area">
-// 				<div className="flex flex-col gap-4">
-// 					<h1 className="text-5xl mt-2">Current Playlist</h1>
-// 					{/* Component Area */}
-// 					<div className="componentArea">
-// 						{activePlaylist &&
-// 						<Playlist
-// 						playlist={activePlaylist}
-// 						playlists={playlists}
-// 						onDeleteTrack={handleDeleteTrack} />}
-// 					</div>
-// 				</div>
-
-// 				{/* Console Area */}
-// 				<div className="console">
-//         			{activeConsole === 'playlists' &&
-//         			<PlaylistConsole
-//         			playlists={playlists}
-//         			onClickPlaylist={setActivePlaylist} />}
-//         			{activeConsole === 'search' &&
-//         			<SearchConsole
-//         			searchedTracks={searchedTracks}
-//         			onAddTrack={handleTrackAdd} />}
-// 				</div>
-// 			</div>
-// 		</div>
-// 		</>
-// 	)
-// }
-
-// export default App;
-
-
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Nav from '../Nav';
+import Nav from '../Nav.jsx';
+import Playlist from '../Playlist';
 import PlaylistConsole from '../PlaylistConsole';
 import SearchConsole from '../SearchConsole';
+import Button from '../Button';
+import Track from '../Track';
 
+// Sample data to simulate fetching from an API or database
 const samplePlaylists = [
     {
         id: 'playlist1',
@@ -221,134 +31,98 @@ const samplePlaylists = [
     }
 ];
 
+// Sample tracks for search functionality
+const tempSearchModel = [
+    { song: 'Cave In', artist: 'Owl City', id: 4 },
+    { song: 'All My Friends', artist: 'Owl City', id: 7 },
+    { song: 'Shine', artist: 'Owl City', id: 8 },
+    { song: 'Wolf Bite', artist: 'Owl City', id: 9 }
+];
+
+
 function App() {
-    const [playlists, setPlaylists] = useState([]);
+    const [playlists, setPlaylists] = useState(samplePlaylists);
     const [activeConsole, setActiveConsole] = useState('playlists');
     const [activePlaylist, setActivePlaylist] = useState(null);
 
-    useEffect(() => {
-        setPlaylists(samplePlaylists);
-    }, []);
+    const handleDeleteTrack = (playlistId, trackId) => {
+	    const updatedPlaylists = playlists.map(playlist => {
+	        if (playlist.id === playlistId) {
+	            return {
+	                ...playlist,
+	                tracks: playlist.tracks.filter(track => track.id !== trackId)
+	            };
+	        }
+	        return playlist;
+	    });
+	    setPlaylists(updatedPlaylists);
 
-    const handleAddTrackToPlaylist = (playlistId, track) => {
-        setPlaylists(playlists.map(playlist => {
-            if (playlist.id === playlistId) {
-                if (!playlist.tracks.find(t => t.id === track.id)) {
-                    return { ...playlist, tracks: [...playlist.tracks, track] };
-                }
-            }
-            return playlist;
-        }));
-    };
+	    // Update activePlaylist to trigger re-render
+	    if (activePlaylist && activePlaylist.id === playlistId) {
+	        setActivePlaylist({
+	            ...activePlaylist,
+	            tracks: activePlaylist.tracks.filter(track => track.id !== trackId)
+	        });
+	    }
+	};
 
-    const handleDeleteTrackFromPlaylist = (playlistId, trackId) => {
-        setPlaylists(playlists.map(playlist => {
-            if (playlist.id === playlistId) {
-                return { ...playlist, tracks: playlist.tracks.filter(track => track.id !== trackId) };
-            }
-            return playlist;
-        }));
-    };
 
-    const handleAddPlaylist = (newPlaylist) => {
-        setPlaylists([...playlists, { ...newPlaylist, id: `playlist${playlists.length + 1}` }]);
-    };
+    const handleAddTrackToPlaylist = (track) => {
+	    if (!activePlaylist) return; // No active playlist selected
 
-    const handleDeletePlaylist = (playlistId) => {
-        setPlaylists(playlists.filter(playlist => playlist.id !== playlistId));
-    };
+	    const updatedPlaylists = playlists.map(playlist => {
+	        if (playlist.id === activePlaylist.id) {
+	            // Prevent adding duplicate tracks
+	            if (!playlist.tracks.find(t => t.id === track.id)) {
+	                return { ...playlist, tracks: [...playlist.tracks, track] };
+	            }
+	        }
+	        return playlist;
+	    });
+
+	    setPlaylists(updatedPlaylists);
+
+	    // Update activePlaylist to trigger re-render
+	    if (!activePlaylist.tracks.find(t => t.id === track.id)) {
+	        setActivePlaylist({
+	            ...activePlaylist,
+	            tracks: [...activePlaylist.tracks, track]
+	        });
+	    }
+	};
+
 
     return (
-        <div className="screen">
-            <Nav onChangeConsole={setActiveConsole} />
+        <>
+            <div className="screen">
+                <Nav onChangeConsole={setActiveConsole} />
 
-            <div className="grid-area">
-                <div className="console">
-                    {activeConsole === 'playlists' && (
+                <div className="grid-area">
+                    <div className="flex flex-col gap-4">
+                        <h1 className="text-5xl mt-2">Current Playlist</h1>
+                        <div className="componentArea">
+                            {activePlaylist &&
+                            <Playlist
+                                playlist={activePlaylist}
+                                playlists={playlists}
+                                onDeleteTrack={handleDeleteTrack} />}
+                        </div>
+                    </div>
+
+                    <div className="console">
+                        {activeConsole === 'playlists' &&
                         <PlaylistConsole
                             playlists={playlists}
-                            onClickPlaylist={setActivePlaylist}
-                            onAddPlaylist={handleAddPlaylist}
-                            onDeletePlaylist={handleDeletePlaylist}
-                            onAddTrackToPlaylist={handleAddTrackToPlaylist}
-                            onDeleteTrackFromPlaylist={handleDeleteTrackFromPlaylist}
-                        />
-                    )}
-                    {activeConsole === 'search' && (
+                            onClickPlaylist={setActivePlaylist} />}
+                        {activeConsole === 'search' &&
                         <SearchConsole
-                            onAddTrack={handleAddTrackToPlaylist}
-                        />
-                    )}
+                        	searchedTracks={tempSearchModel}
+                            onAddTrack={handleAddTrackToPlaylist} />}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
 export default App;
-
-
-function App() {
-    const [playlists, setPlaylists] = useState([]);
-    const [activeConsole, setActiveConsole] = useState('playlists');
-    const [activePlaylist, setActivePlaylist] = useState(null);
-
-    useEffect(() => {
-        setPlaylists(samplePlaylists);
-    }, []);
-
-    const handleAddTrackToPlaylist = (playlistId, track) => {
-        setPlaylists(playlists.map(playlist => {
-            if (playlist.id === playlistId) {
-                if (!playlist.tracks.find(t => t.id === track.id)) {
-                    return { ...playlist, tracks: [...playlist.tracks, track] };
-                }
-            }
-            return playlist;
-        }));
-    };
-
-    const handleDeleteTrackFromPlaylist = (playlistId, trackId) => {
-        setPlaylists(playlists.map(playlist => {
-            if (playlist.id === playlistId) {
-                return { ...playlist, tracks: playlist.tracks.filter(track => track.id !== trackId) };
-            }
-            return playlist;
-        }));
-    };
-
-    const handleAddPlaylist = (newPlaylist) => {
-        setPlaylists([...playlists, { ...newPlaylist, id: `playlist${playlists.length + 1}` }]);
-    };
-
-    const handleDeletePlaylist = (playlistId) => {
-        setPlaylists(playlists.filter(playlist => playlist.id !== playlistId));
-    };
-
-    return (
-        <>
- 		<div className="screen">
- 			<Nav onChangeConsole={setActiveConsole} />
-
- 			<div className="grid-area">
- 				<div className="flex flex-col gap-4">
- 					<h1 className="text-5xl mt-2">Current Playlist</h1>
- 					{/* Component Area */}
- 					<div className="componentArea">
- 						{activePlaylist &&
-						<Playlist />}
-					</div>
-				</div>
-
-				{/* Console Area */}
-				<div className="console">
-        			{activeConsole === 'playlists' &&
-        			<PlaylistConsole />}
-        			{activeConsole === 'search' &&
-        			<SearchConsole />}
-				</div>
-			</div>
-		</div>
-		</>
-    );
-}
