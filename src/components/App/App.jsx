@@ -45,6 +45,21 @@ function App() {
     const [activeConsole, setActiveConsole] = useState('playlists');
     const [activePlaylist, setActivePlaylist] = useState(null);
 
+    const onUpdatePlaylistName = (playlistId, newName) => {
+	    const updatedPlaylists = playlists.map(playlist => {
+	        if (playlist.id === playlistId) {
+	            return { ...playlist, name: newName };
+	        }
+	        return playlist;
+	    });
+	    setPlaylists(updatedPlaylists);
+
+	    // Update activePlaylist if it's the one being edited
+	    if (activePlaylist && activePlaylist.id === playlistId) {
+	        setActivePlaylist(prev => ({ ...prev, name: newName }));
+	    }
+	};
+
     const handleDeleteTrack = (playlistId, trackId) => {
 	    const updatedPlaylists = playlists.map(playlist => {
 	        if (playlist.id === playlistId) {
@@ -65,7 +80,6 @@ function App() {
 	        });
 	    }
 	};
-
 
     const handleAddTrackToPlaylist = (track) => {
 	    if (!activePlaylist) return; // No active playlist selected
@@ -133,6 +147,7 @@ function App() {
                             <Playlist
                                 playlist={activePlaylist}
                                 playlists={playlists}
+                                onUpdatePlaylistName={onUpdatePlaylistName}
                                 onDeleteTrack={handleDeleteTrack}
                                 onDeletePlaylist={handleDeletePlaylist}
                                 onTrackReorder={onTrackReorder} />}
