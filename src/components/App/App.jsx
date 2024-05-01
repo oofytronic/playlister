@@ -91,6 +91,34 @@ function App() {
 	    }
 	};
 
+	const handleDeletePlaylist = (playlistId) => {
+	    const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
+	    setPlaylists(updatedPlaylists);
+
+	    // If the active playlist is the one being deleted, reset the activePlaylist
+	    if (activePlaylist && activePlaylist.id === playlistId) {
+	        setActivePlaylist(null);
+	    }
+	};
+
+	const handleAddPlaylist = (newPlaylist) => {
+	    setPlaylists([...playlists, newPlaylist]);
+	};
+
+	const onTrackReorder = (draggedTrackId, targetTrackId) => {
+	    const updatedPlaylists = playlists.map(playlist => {
+	        if (playlist === activePlaylist) {
+	            const draggedTrackIndex = playlist.tracks.findIndex(t => t.id === draggedTrackId);
+	            const targetTrackIndex = playlist.tracks.findIndex(t => t.id === targetTrackId);
+	            const [removed] = playlist.tracks.splice(draggedTrackIndex, 1);
+	            playlist.tracks.splice(targetTrackIndex, 0, removed);
+	        }
+	        return playlist;
+	    });
+	    setPlaylists(updatedPlaylists);
+	    setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
+	};
+
 
     return (
         <>
@@ -105,7 +133,9 @@ function App() {
                             <Playlist
                                 playlist={activePlaylist}
                                 playlists={playlists}
-                                onDeleteTrack={handleDeleteTrack} />}
+                                onDeleteTrack={handleDeleteTrack}
+                                onDeletePlaylist={handleDeletePlaylist}
+                                onTrackReorder={onTrackReorder} />}
                         </div>
                     </div>
 
@@ -113,7 +143,8 @@ function App() {
                         {activeConsole === 'playlists' &&
                         <PlaylistConsole
                             playlists={playlists}
-                            onClickPlaylist={setActivePlaylist} />}
+                            onClickPlaylist={setActivePlaylist}
+                            onAddPlaylist={handleAddPlaylist} />}
                         {activeConsole === 'search' &&
                         <SearchConsole
                         	searchedTracks={tempSearchModel}
