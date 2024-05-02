@@ -39,6 +39,8 @@ const tempSearchModel = [
     { song: 'Wolf Bite', artist: 'Owl City', id: 9 }
 ];
 
+const code = new URLSearchParams(window.location.search)
+
 
 function App() {
     const [playlists, setPlaylists] = useState(samplePlaylists);
