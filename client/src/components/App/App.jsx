@@ -43,9 +43,30 @@ const code = new URLSearchParams(window.location.search)
 
 
 function App() {
-    const [playlists, setPlaylists] = useState(samplePlaylists);
+    const [playlists, setPlaylists] = useState([]);
     const [activeConsole, setActiveConsole] = useState('playlists');
     const [activePlaylist, setActivePlaylist] = useState(null);
+
+    const fetchUserPlaylists = async () => {
+	    const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
+	    if (!token) {
+	        console.log('No token available');
+	        return;
+	    }
+
+	    const response = await fetch('https://api.spotify.com/v1/me/playlists', {
+	        headers: {
+	            'Authorization': `Bearer ${token}`
+	        }
+	    });
+
+	    if (!response.ok) {
+	        throw new Error(`HTTP error! Status: ${response.status}`);
+	    }
+
+	    const data = await response.json();
+	    return data.items; // This contains the array of playlists
+	};
 
     const onUpdatePlaylistName = (playlistId, newName) => {
 	    const updatedPlaylists = playlists.map(playlist => {
@@ -134,6 +155,12 @@ function App() {
 	    setPlaylists(updatedPlaylists);
 	    setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
 	};
+
+	useEffect(() => {
+        fetchUserPlaylists()
+            .then(items => setPlaylists(items))
+            .catch(error => console.error('Failed to fetch playlists:', error));
+    }, []);
 
 
     return (
