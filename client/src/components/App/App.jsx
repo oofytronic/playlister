@@ -16,7 +16,7 @@ import Track from '../Track';
 //             { song: 'Fireflies', artist: 'Owl City', id: 1 },
 //             { song: 'Montana', artist: 'Owl City', id: 2 },
 //             { song: 'Dinosaur Park', artist: 'Owl City', id: 3 },
-//             { song: 'Cave In', artist: 'Owl City', id: 4 },
+//             { song:"" 'Cave In', artist: 'Owl City', id: 4 },
 //             { song: 'Vanilla Twilight', artist: 'Owl City', id: 5 }
 //         ]
 //     },
@@ -32,12 +32,12 @@ import Track from '../Track';
 // ];
 
 // Sample tracks for search functionality
-const tempSearchModel = [
-    { song: 'Cave In', artist: 'Owl City', id: 4 },
-    { song: 'All My Friends', artist: 'Owl City', id: 7 },
-    { song: 'Shine', artist: 'Owl City', id: 8 },
-    { song: 'Wolf Bite', artist: 'Owl City', id: 9 }
-];
+// const tempSearchModel = [
+//     { song: 'Cave In', artist: 'Owl City', id: 4 },
+//     { song: 'All My Friends', artist: 'Owl City', id: 7 },
+//     { song: 'Shine', artist: 'Owl City', id: 8 },
+//     { song: 'Wolf Bite', artist: 'Owl City', id: 9 }
+// ];
 
 const code = new URLSearchParams(window.location.search)
 
@@ -143,6 +143,36 @@ function App() {
 	    setPlaylists([...playlists, newPlaylist]);
 	};
 
+	const fetchPlaylistTracks = async (playlist) => {
+		const tracksUrl = playlist.tracks.href;
+	    const token = window.localStorage.getItem('spotify_access_token'); // Ensure you have the token
+	    if (!token) {
+	        console.error('No access token available');
+	        return;
+	    }
+
+	    const response = await fetch(tracksUrl, {
+	        headers: {
+	            'Authorization': `Bearer ${token}`
+	        }
+	    });
+
+	    if (!response.ok) {
+	        throw new Error(`HTTP error! Status: ${response.status}`);
+	    }
+
+	    const data = await response.json();
+
+	    const playlistObj = {
+	    	id: playlist.id,
+	    	name: playlist.name,
+	    	tracks: data.items,
+	    	thumbnail: playlist.images[1].url
+	    }
+
+	    setActivePlaylist(playlistObj);
+	};
+
 	const onTrackReorder = (draggedTrackId, targetTrackId) => {
 	    const updatedPlaylists = playlists.map(playlist => {
 	        if (playlist === activePlaylist) {
@@ -187,11 +217,11 @@ function App() {
                         {activeConsole === 'playlists' &&
                         <PlaylistConsole
                             playlists={playlists}
-                            onClickPlaylist={setActivePlaylist}
+                            onClickPlaylist={fetchPlaylistTracks}
                             onAddPlaylist={handleAddPlaylist} />}
                         {activeConsole === 'search' &&
                         <SearchConsole
-                        	searchedTracks={tempSearchModel}
+                        	// searchedTracks={tempSearchModel}
                             onAddTrack={handleAddTrackToPlaylist} />}
                     </div>
                 </div>

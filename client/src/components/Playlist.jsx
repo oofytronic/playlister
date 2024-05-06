@@ -35,7 +35,7 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 	return (
 		<div className="playlist flex flex-col gap-2">
 		  <div className="playlist-header">
-		    <div style={{background: 'gray', width: '150px', height: '150px'}}></div>
+		    <img style={{width: '150px', height: '150px'}} src={playlist.thumbnail} />
 		    {isEditing ? (
                 <>
                     <input type="text" value={editedName} onChange={handleNameChange} />
@@ -55,8 +55,8 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 		  </div>
 		  {playlist.tracks.map(track =>
 		    <Track 
-		    	track={track}
-		    	key={track.id}
+		    	track={track.track}
+		    	key={track.track.id}
 		    	onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
