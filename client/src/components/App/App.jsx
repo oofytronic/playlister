@@ -8,28 +8,28 @@ import Button from '../Button';
 import Track from '../Track';
 
 // Sample data to simulate fetching from an API or database
-const samplePlaylists = [
-    {
-        id: 'playlist1',
-        name: 'Owl City Hits',
-        tracks: [
-            { song: 'Fireflies', artist: 'Owl City', id: 1 },
-            { song: 'Montana', artist: 'Owl City', id: 2 },
-            { song: 'Dinosaur Park', artist: 'Owl City', id: 3 },
-            { song: 'Cave In', artist: 'Owl City', id: 4 },
-            { song: 'Vanilla Twilight', artist: 'Owl City', id: 5 }
-        ]
-    },
-    {
-        id: 'playlist2',
-        name: 'Port Blue Vibes',
-        tracks: [
-            { song: 'Fireflies', artist: 'Port Blue', id: 11 },
-            { song: 'Montana', artist: 'Port Blue', id: 12 },
-            { song: 'Dinosaur Park', artist: 'Port Blue', id: 13 }
-        ]
-    }
-];
+// const samplePlaylists = [
+//     {
+//         id: 'playlist1',
+//         name: 'Owl City Hits',
+//         tracks: [
+//             { song: 'Fireflies', artist: 'Owl City', id: 1 },
+//             { song: 'Montana', artist: 'Owl City', id: 2 },
+//             { song: 'Dinosaur Park', artist: 'Owl City', id: 3 },
+//             { song: 'Cave In', artist: 'Owl City', id: 4 },
+//             { song: 'Vanilla Twilight', artist: 'Owl City', id: 5 }
+//         ]
+//     },
+//     {
+//         id: 'playlist2',
+//         name: 'Port Blue Vibes',
+//         tracks: [
+//             { song: 'Fireflies', artist: 'Port Blue', id: 11 },
+//             { song: 'Montana', artist: 'Port Blue', id: 12 },
+//             { song: 'Dinosaur Park', artist: 'Port Blue', id: 13 }
+//         ]
+//     }
+// ];
 
 // Sample tracks for search functionality
 const tempSearchModel = [
@@ -65,6 +65,7 @@ function App() {
 	    }
 
 	    const data = await response.json();
+	    console.log(data.items)
 	    return data.items; // This contains the array of playlists
 	};
 
@@ -161,7 +162,6 @@ function App() {
             .then(items => setPlaylists(items))
             .catch(error => console.error('Failed to fetch playlists:', error));
     }, []);
-
 
     return (
         <>
