@@ -163,7 +163,7 @@ function App() {
             <div className="grid-area">
             	<Nav />
 
-                <div className="flex flex-col gap-4 border-white border-2 rounded-md p-4">
+                <div className="flex flex-col gap-4 overflow-y-scroll border-white border-2 rounded-md p-4">
                     <h1 className="text-5xl mt-2">Current Playlist</h1>
                     <div className="componentArea">
                         {activePlaylist &&
@@ -177,8 +177,8 @@ function App() {
                     </div>
                 </div>
 
-                <div className="relative console overflow-y-scroll border-white border-2 rounded-md p-4">
-                	<div className="bg-slate-950 sticky top-0 flex justify-center gap-2 list-none border-2 border-white p-4">
+                <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4">
+                	<div className="bg-slate-950 sticky top-0 flex justify-end gap-2 list-none py-4">
                     	<li><button onClick={() => setActiveConsole('playlists')}>Playlists</button></li>
 						<li><button onClick={() => setActiveConsole('search')}>Search</button></li>
 					</div>
