@@ -12,8 +12,11 @@ const SpotifyAuth = () => {
         }
 
         if (token) {
-            console.log('Token:', token);
-            // Perform API calls or redirect user
+            if (token !== window.localStorage.getItem('spotify_access_token')) {
+               window.localStorage.setItem('spotify_access_token', token); 
+            } else {
+                console.log('Already logged in')
+            }
         }
 
         const error = new URLSearchParams(window.location.hash).get('error');
