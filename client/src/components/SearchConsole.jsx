@@ -47,7 +47,7 @@ function SearchConsole({onAddTrack}) {
 
     return (
         <div className="search-console">
-			<h2 className="text-5xl mt-2">Search Songs</h2>
+			<h2 className="text-4xl mt-2">Search Songs</h2>
 			<input
 			    type="search"
 			    value={searchTerm}

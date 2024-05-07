@@ -8,9 +8,9 @@ function Nav({onChangeConsole}) {
 		<nav className="flex flex-col items-center gap-2 border-white border-2 rounded-md p-4">
 			<p><a href="/" className="font-black text-2xl">BridgeBeat</a></p>
 
-			<ul className="flex flex-col items-center gap-2">
+			<ul className="flex flex-col items-center text-center gap-2">
 				<li><SpotifyAuth /></li>
-				<li><Button label="+ Stream" /></li>
+				<li><p>More Streams Coming Soon</p></li>
 			</ul>
 		</nav>
 	)
