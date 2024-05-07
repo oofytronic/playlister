@@ -25,7 +25,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
     return (
         <>
             <div className="search-console">
-                <h2 className="text-4xl mt-2">Playlists</h2>
+                <h2 className="font-bold text-4xl my-2">Playlists</h2>
 
                 <div className="flex flex-col gap-2">
                     {playlists.map(playlist =>

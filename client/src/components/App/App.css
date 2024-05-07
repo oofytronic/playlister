@@ -34,25 +34,7 @@ input {
 	gap: 0.5rem;
 }
 
-.track {
-	display: flex;
-	justify-content: space-between;
-}
-
-.track-info {
-	display: flex;
-	gap: 0.5rem;
-}
-
 .console { 
 	height: 100%;
 	border-left: 1px white solid;
-}
-
-.search-consolde {
-	width: 100%;
-}
-
-.search-console input {
-	width: 100%;
 }

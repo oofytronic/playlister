@@ -163,8 +163,7 @@ function App() {
             <div className="grid-area">
             	<Nav />
 
-                <div className="flex flex-col gap-4 overflow-y-scroll border-white border-2 rounded-md p-4">
-                    <h1 className="text-4xl mt-2">Current Playlist</h1>
+                <div className="flex flex-col gap-4 overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
                     <div className="componentArea">
                         {activePlaylist &&
                         <Playlist
