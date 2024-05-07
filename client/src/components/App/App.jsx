@@ -177,7 +177,7 @@ function App() {
                     </div>
                 </div>
 
-                <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4">
+                <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
                 	<div className="bg-slate-950 sticky top-0 flex justify-end gap-2 list-none py-4">
                     	<li><button onClick={() => setActiveConsole('playlists')}>Playlists</button></li>
 						<li><button onClick={() => setActiveConsole('search')}>Search</button></li>
