@@ -7,41 +7,6 @@ import SearchConsole from '../SearchConsole';
 import Button from '../Button';
 import Track from '../Track';
 
-// Sample data to simulate fetching from an API or database
-// const samplePlaylists = [
-//     {
-//         id: 'playlist1',
-//         name: 'Owl City Hits',
-//         tracks: [
-//             { song: 'Fireflies', artist: 'Owl City', id: 1 },
-//             { song: 'Montana', artist: 'Owl City', id: 2 },
-//             { song: 'Dinosaur Park', artist: 'Owl City', id: 3 },
-//             { song:"" 'Cave In', artist: 'Owl City', id: 4 },
-//             { song: 'Vanilla Twilight', artist: 'Owl City', id: 5 }
-//         ]
-//     },
-//     {
-//         id: 'playlist2',
-//         name: 'Port Blue Vibes',
-//         tracks: [
-//             { song: 'Fireflies', artist: 'Port Blue', id: 11 },
-//             { song: 'Montana', artist: 'Port Blue', id: 12 },
-//             { song: 'Dinosaur Park', artist: 'Port Blue', id: 13 }
-//         ]
-//     }
-// ];
-
-// Sample tracks for search functionality
-// const tempSearchModel = [
-//     { song: 'Cave In', artist: 'Owl City', id: 4 },
-//     { song: 'All My Friends', artist: 'Owl City', id: 7 },
-//     { song: 'Shine', artist: 'Owl City', id: 8 },
-//     { song: 'Wolf Bite', artist: 'Owl City', id: 9 }
-// ];
-
-const code = new URLSearchParams(window.location.search)
-
-
 function App() {
     const [playlists, setPlaylists] = useState([]);
     const [activeConsole, setActiveConsole] = useState('playlists');
@@ -195,35 +160,36 @@ function App() {
 
     return (
         <>
-            <div className="screen">
-                <Nav onChangeConsole={setActiveConsole} />
+            <div className="grid-area">
+            	<Nav />
 
-                <div className="grid-area">
-                    <div className="flex flex-col gap-4">
-                        <h1 className="text-5xl mt-2">Current Playlist</h1>
-                        <div className="componentArea">
-                            {activePlaylist &&
-                            <Playlist
-                                playlist={activePlaylist}
-                                playlists={playlists}
-                                onUpdatePlaylistName={onUpdatePlaylistName}
-                                onDeleteTrack={handleDeleteTrack}
-                                onDeletePlaylist={handleDeletePlaylist}
-                                onTrackReorder={onTrackReorder} />}
-                        </div>
-                    </div>
-
-                    <div className="console">
-                        {activeConsole === 'playlists' &&
-                        <PlaylistConsole
+                <div className="flex flex-col gap-4 border-white border-2 rounded-md p-4">
+                    <h1 className="text-5xl mt-2">Current Playlist</h1>
+                    <div className="componentArea">
+                        {activePlaylist &&
+                        <Playlist
+                            playlist={activePlaylist}
                             playlists={playlists}
-                            onClickPlaylist={fetchPlaylistTracks}
-                            onAddPlaylist={handleAddPlaylist} />}
-                        {activeConsole === 'search' &&
-                        <SearchConsole
-                        	// searchedTracks={tempSearchModel}
-                            onAddTrack={handleAddTrackToPlaylist} />}
+                            onUpdatePlaylistName={onUpdatePlaylistName}
+                            onDeleteTrack={handleDeleteTrack}
+                            onDeletePlaylist={handleDeletePlaylist}
+                            onTrackReorder={onTrackReorder} />}
                     </div>
+                </div>
+
+                <div className="relative console overflow-y-scroll border-white border-2 rounded-md p-4">
+                	<div className="bg-slate-950 sticky top-0 flex justify-center gap-2 list-none border-2 border-white p-4">
+                    	<li><button onClick={() => setActiveConsole('playlists')}>Playlists</button></li>
+						<li><button onClick={() => setActiveConsole('search')}>Search</button></li>
+					</div>
+                    {activeConsole === 'playlists' &&
+                    <PlaylistConsole
+                        playlists={playlists}
+                        onClickPlaylist={fetchPlaylistTracks}
+                        onAddPlaylist={handleAddPlaylist} />}
+                    {activeConsole === 'search' &&
+                    <SearchConsole
+                        onAddTrack={handleAddTrackToPlaylist} />}
                 </div>
             </div>
         </>

@@ -30,8 +30,8 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                 <div className="flex flex-col gap-2">
                     {playlists.map(playlist =>
                         <div key={playlist.id} className="flex gap-4" onClick={() => onClickPlaylist(playlist)}>
-                            <div style={{background: 'gray', width: '50px', height: '50px'}}></div>
-                            <p>{playlist.name}</p>
+                            <div className="flex-none bg-slate-500 w-12 h-12"></div>
+                            <p className="truncate">{playlist.name}</p>
                         </div>
                     )}
                     <Button label="New Playlist" onClick={() => setShowForm(true)} />

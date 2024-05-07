@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --color-dark: rgb(3 7 18);
   font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   font-weight: 900;
   line-height: 1.5;
@@ -10,7 +11,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: #0f0e0e;
+  background: var(--color-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

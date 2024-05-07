@@ -15,45 +15,19 @@ input {
 	width: fit-content;
 }
 
-.screen { 
-	display: grid;
-	grid-template-rows: 8dvh 92dvh;
-}
-
-.main-nav {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: 0 2rem;
-	height: 100%;
-	border-bottom: 1px solid white;
-}
-
-.main-nav ul {
-	display: flex;
-	gap: 0.5rem;
-	list-style-type: none;
-}
-
 .grid-area {
 	display: grid;
-	grid-template-columns: 75% 25%;
-	gap: 2rem;
-	padding: 0 2rem;
-	height: 100%;
+	grid-template-columns: 1fr 5fr 2fr;
+	height: 100dvh;
+	width: 100dvw;
+	gap: 1rem;
+	padding: 1rem;
 }
 
 .componentArea {
 	max-width: 1000px;
     width: 100%;
     margin: 0 auto;
-}
-
-.playlist {
-	color: white;
-	border: 1px solid white;
-	width: 100%;
 }
 
 .playlist-header {

@@ -33,7 +33,7 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 	};
 
 	return (
-		<div className="playlist flex flex-col gap-2">
+		<div className="flex flex-col gap-2 color-white w-full">
 		  <div className="playlist-header">
 		    <img style={{width: '150px', height: '150px'}} src={playlist.thumbnail} />
 		    {isEditing ? (
