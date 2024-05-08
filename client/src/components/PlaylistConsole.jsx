@@ -30,7 +30,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                 <div className="flex flex-col gap-4">
                     {playlists.map(playlist =>
                         <div key={playlist.id} className="flex gap-4" onClick={() => onClickPlaylist(playlist)}>
-                            <div className="flex-none bg-slate-500 w-12 h-12 rounded-md"></div>
+                            <img className="flex-none bg-slate-500 w-12 h-12 rounded-md" src={playlist.images.length > 1 ? playlist.images[1].url : playlist.images[0].url} alt="Thumbnail" />
                             <p className="truncate">{playlist.name}</p>
                         </div>
                     )}
