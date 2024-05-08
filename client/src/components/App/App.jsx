@@ -248,7 +248,7 @@ function App() {
 	    	id: playlist.id,
 	    	name: playlist.name,
 	    	tracks: data.items,
-	    	thumbnail: playlist.images[1].url
+	    	thumbnail: playlist.images.length > 1 ? playlist.images[1].url : playlist.images[0].url
 	    }
 
 	    setActivePlaylist(playlistObj);
