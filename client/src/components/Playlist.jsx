@@ -41,16 +41,16 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 
 	return (
 		<div className="relative flex flex-col gap-2 color-white w-full">
-			<div className="bg-slate-950 sticky top-0 flex justify-between w-full py-4">
+			<div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-between w-full py-4">
 				<h1 className="text-4xl mt-2 font-bold">Current Playlist</h1>
 
 				<div className="flex gap-2 items-center">
 				    <Button label={<FontAwesomeIcon icon={faFloppyDisk} />} />
 				    <Button label={<FontAwesomeIcon icon={faArrowsRotate} />} />
-				    <Button className="border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
+				    <Button className="bg-slate-950 border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
 				</div>
 			</div>
-		  <div className="playlist-header">
+		  <div className="flex gap-2 py-2">
 		    <img className="rounded-md" style={{width: '150px', height: '150px'}} src={playlist.thumbnail} />
 		    {isEditing ? (
                 <>
@@ -64,6 +64,7 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
                 </>
             )}
 		  </div>
+		  <div className="flex flex-col gap-4 w-full">
 		  {playlist.tracks.map(track =>
 		    <Track 
 		    	track={track.track}
@@ -75,6 +76,7 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 		      <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} />
 		    </Track>
 		  )}
+		  </div>
 		</div>
 	)
 }

@@ -714,6 +714,32 @@ video {
   background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
+.bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
+.from-slate-950 {
+  --tw-gradient-from: #020617 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(2 6 23 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-30\% {
+  --tw-gradient-from-position: 30%;
+}
+
+.from-50\% {
+  --tw-gradient-from-position: 50%;
+}
+
+.from-70\% {
+  --tw-gradient-from-position: 70%;
+}
+
+.to-transparent {
+  --tw-gradient-to: transparent var(--tw-gradient-to-position);
+}
+
 .p-3 {
   padding: 0.75rem;
 }

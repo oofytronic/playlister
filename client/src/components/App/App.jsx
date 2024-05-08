@@ -49,48 +49,164 @@ function App() {
 	    }
 	};
 
-    const handleDeleteTrack = (playlistId, trackId) => {
-	    const updatedPlaylists = playlists.map(playlist => {
-	        if (playlist.id === playlistId) {
-	            return {
-	                ...playlist,
-	                tracks: playlist.tracks.filter(track => track.id !== trackId)
-	            };
-	        }
-	        return playlist;
-	    });
-	    setPlaylists(updatedPlaylists);
+    const handleDeleteTrack = async (playlistId, trackId) => {
+	    const token = window.localStorage.getItem('spotify_access_token');
+	    if (!token) {
+	        console.error('No access token available');
+	        return;
+	    }
 
-	    // Update activePlaylist to trigger re-render
-	    if (activePlaylist && activePlaylist.id === playlistId) {
-	        setActivePlaylist({
-	            ...activePlaylist,
-	            tracks: activePlaylist.tracks.filter(track => track.id !== trackId)
+	    // Find the playlist by id
+	    const playlist = playlists.find(p => p.id === playlistId);
+	    if (!playlist) {
+	        console.error('Playlist not found');
+	        return;
+	    }
+
+	    // Ensure playlist.tracks is treated as an array
+	    const tracks = Array.isArray(playlist.tracks) ? playlist.tracks : [];
+	    const track = tracks.find(t => t.id === trackId);
+	    if (!track) {
+	        console.error('Track not found');
+	        return;
+	    }
+
+	    // Spotify API endpoint to remove tracks from a playlist
+	    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+	    const requestOptions = {
+	        method: 'DELETE',
+	        headers: {
+	            'Authorization': `Bearer ${token}`,
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	            tracks: [{ uri: track.uri }]
+	        })
+	    };
+
+	    try {
+	        const response = await fetch(deleteUrl, requestOptions);
+	        if (!response.ok) {
+	            throw new Error(`HTTP error! Status: ${response.status}`);
+	        }
+
+	        // Update local state only if the Spotify API call was successful
+	        const updatedPlaylists = playlists.map(p => {
+	            if (p.id === playlistId) {
+	                const updatedTracks = tracks.filter(t => t.id !== trackId);
+	                return { ...p, tracks: updatedTracks };
+	            }
+	            return p;
 	        });
+
+	        setPlaylists(updatedPlaylists);
+
+	        // Update activePlaylist to trigger re-render
+	        if (activePlaylist && activePlaylist.id === playlistId) {
+	            setActivePlaylist({
+	                ...activePlaylist,
+	                tracks: activePlaylist.tracks.filter(t => t.id !== trackId)
+	            });
+	        }
+
+	        console.log('Track deleted successfully');
+	    } catch (error) {
+	        console.error('Failed to delete track:', error);
 	    }
 	};
 
-    const handleAddTrackToPlaylist = (track) => {
-	    if (!activePlaylist) return; // No active playlist selected
+    // const handleAddTrackToPlaylist = (track) => {
+	//     if (!activePlaylist) return; // No active playlist selected
 
-	    const updatedPlaylists = playlists.map(playlist => {
-	        if (playlist.id === activePlaylist.id) {
-	            // Prevent adding duplicate tracks
-	            if (!playlist.tracks.find(t => t.id === track.id)) {
-	                return { ...playlist, tracks: [...playlist.tracks, track] };
-	            }
+	//     const updatedPlaylists = playlists.map(playlist => {
+	//         if (playlist.id === activePlaylist.id) {
+	//             // Prevent adding duplicate tracks
+	//             if (!playlist.tracks.find(t => t.id === track.id)) {
+	//                 return { ...playlist, tracks: [...playlist.tracks, track] };
+	//             }
+	//         }
+	//         return playlist;
+	//     });
+
+	//     setPlaylists(updatedPlaylists);
+
+	//     // Update activePlaylist to trigger re-render
+	//     if (!activePlaylist.tracks.find(t => t.id === track.id)) {
+	//         setActivePlaylist({
+	//             ...activePlaylist,
+	//             tracks: [...activePlaylist.tracks, track]
+	//         });
+	//     }
+	// };
+
+	const handleAddTrackToPlaylist = async (track) => {
+	    if (!activePlaylist) {
+	    	alert('No Active Playlist. Please select a playlist before adding a song.')
+	    	return;
+	    }
+
+	    // Initialize tracks as an empty array if it does not exist or is not iterable
+	    if (!Array.isArray(activePlaylist.tracks)) {
+	        console.error('Current activePlaylist.tracks is not an array:', activePlaylist.tracks);
+	        activePlaylist.tracks = [];
+	    }
+
+	    // Check for existing Spotify track in the playlist to avoid duplicates
+	    if (activePlaylist.tracks.find(t => t.id === track.id)) {
+	        alert('Track already exists in the playlist');
+	        return;
+	    }
+
+	    const token = window.localStorage.getItem('spotify_access_token');
+	    if (!token) {
+	        console.error('No access token available');
+	        return;
+	    }
+
+	    // Spotify API endpoint to add tracks to the playlist
+	    const addTrackUrl = `https://api.spotify.com/v1/playlists/${activePlaylist.id}/tracks`;
+
+	    // Construct the request body and headers
+	    const requestOptions = {
+	        method: 'POST',
+	        headers: {
+	            'Authorization': `Bearer ${token}`,
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	            uris: [track.uri] // Spotify expects an array of track URIs
+	        })
+	    };
+
+	    try {
+	        const response = await fetch(addTrackUrl, requestOptions);
+	        if (!response.ok) {
+	            throw new Error(`HTTP error! Status: ${response.status}`);
 	        }
-	        return playlist;
-	    });
 
-	    setPlaylists(updatedPlaylists);
-
-	    // Update activePlaylist to trigger re-render
-	    if (!activePlaylist.tracks.find(t => t.id === track.id)) {
-	        setActivePlaylist({
-	            ...activePlaylist,
-	            tracks: [...activePlaylist.tracks, track]
+	        // Update local playlists and activePlaylist
+	        const updatedPlaylists = playlists.map(playlist => {
+	            if (playlist.id === activePlaylist.id) {
+	                // Ensure playlist.tracks is an array
+	                const newTracks = Array.isArray(playlist.tracks) ? [...playlist.tracks] : [];
+	                newTracks.push(track);
+	                return { ...playlist, tracks: newTracks };
+	            }
+	            return playlist;
 	        });
+
+	        setPlaylists(updatedPlaylists);
+
+	        // Update activePlaylist to trigger re-render
+	        setActivePlaylist(prev => ({
+	            ...prev,
+	            tracks: [...prev.tracks, track]
+	        }));
+
+	        console.log('Track added successfully');
+	    } catch (error) {
+	        console.error('Failed to add track:', error);
 	    }
 	};
 
@@ -177,7 +293,7 @@ function App() {
                 </div>
 
                 <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
-                	<div className="bg-slate-950 sticky top-0 flex justify-end gap-2 list-none py-4">
+                	<div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-end gap-2 list-none py-4">
                     	<li><button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button></li>
 						<li><button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button></li>
 					</div>

@@ -61,7 +61,7 @@ function SearchConsole({onAddTrack}) {
     			{/*<button onClick={handleSearch}>Search</button>*/}
             </div>
 
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col gap-4">
 			  {searchResults.map(track =>
 			    <Track track={track} key={track.id}>
 			      <Button label={<FontAwesomeIcon icon={faPlus} />} onClick={() => onAddTrack(track)} />

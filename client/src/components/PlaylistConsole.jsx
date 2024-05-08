@@ -27,10 +27,10 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
             <div className="search-console">
                 <h2 className="font-bold text-4xl my-2">Playlists</h2>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-4">
                     {playlists.map(playlist =>
                         <div key={playlist.id} className="flex gap-4" onClick={() => onClickPlaylist(playlist)}>
-                            <div className="flex-none bg-slate-500 w-12 h-12"></div>
+                            <div className="flex-none bg-slate-500 w-12 h-12 rounded-md"></div>
                             <p className="truncate">{playlist.name}</p>
                         </div>
                     )}

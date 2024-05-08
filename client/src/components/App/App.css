@@ -1,14 +1,8 @@
 button {
 	padding: 0.25rem 0.5rem;
-/*	border: 1px solid white;*/
 	height: fit-content;
 	width: fit-content;
 }
-
-/*button:hover {
-	background: white;
-	color: #0f0e0e;
-}*/
 
 input {
 	height: fit-content;
@@ -27,11 +21,6 @@ input {
 .componentArea {
     width: 100%;
     margin: 0 auto;
-}
-
-.playlist-header {
-	display: flex;
-	gap: 0.5rem;
 }
 
 .console { 
