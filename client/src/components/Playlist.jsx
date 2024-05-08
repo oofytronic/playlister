@@ -4,8 +4,11 @@ import Track from './Track.jsx';
 import Button from './Button.jsx';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
 function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onDeletePlaylist, onTrackReorder}) {
 	const [isEditing, setIsEditing] = useState(false);
@@ -41,10 +44,10 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 			<div className="bg-slate-950 sticky top-0 flex justify-between w-full py-4">
 				<h1 className="text-4xl mt-2 font-bold">Current Playlist</h1>
 
-				<div>
-				    <Button label="Save Playlist" />
-				    <Button label="Sync With" />
-				    <Button label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
+				<div className="flex gap-2 items-center">
+				    <Button label={<FontAwesomeIcon icon={faFloppyDisk} />} />
+				    <Button label={<FontAwesomeIcon icon={faArrowsRotate} />} />
+				    <Button className="border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
 				</div>
 			</div>
 		  <div className="playlist-header">
@@ -52,7 +55,7 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 		    {isEditing ? (
                 <>
                     <input type="text" value={editedName} onChange={handleNameChange} />
-                    <Button label="Save" onClick={saveNameChange} />
+                    <Button label={<FontAwesomeIcon icon={faFloppyDisk} />} onClick={saveNameChange} />
                 </>
             ) : (
                 <>
@@ -68,8 +71,8 @@ function Playlist({playlist, playlists, onUpdatePlaylistName, onDeleteTrack, onD
 		    	onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-		      <Button label="Change Order" />
-		      <Button label={<FontAwesomeIcon icon={faXmark} />} onClick={() => onDeleteTrack(playlist.id, track.id)} />
+		      <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.id)} />
+		      <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} />
 		    </Track>
 		  )}
 		</div>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Button from './Button.jsx';
 import Track from './Track.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function SearchConsole({onAddTrack}) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -50,7 +52,7 @@ function SearchConsole({onAddTrack}) {
 			<h2 className="font-bold text-4xl my-2">Search Songs</h2>
             <div className="flex gap-1 w-full">
     			<input
-                    className="bg-slate-500 w-full p-3"
+                    className="bg-slate-500 w-full p-3 rounded-md"
     			    type="search"
     			    value={searchTerm}
     			    onChange={handleSearchChange}
@@ -62,7 +64,7 @@ function SearchConsole({onAddTrack}) {
 			<div className="flex flex-col gap-2">
 			  {searchResults.map(track =>
 			    <Track track={track} key={track.id}>
-			      <Button label="Add" onClick={() => onAddTrack(track)} />
+			      <Button label={<FontAwesomeIcon icon={faPlus} />} onClick={() => onAddTrack(track)} />
 			    </Track>
 			  )}
 			</div>
