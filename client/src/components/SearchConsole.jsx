@@ -48,17 +48,18 @@ function SearchConsole({onAddTrack}) {
     };
 
     return (
-        <div className="flex flex-col gap-2 w-full">
-			<h2 className="font-bold text-4xl my-2">Search Songs</h2>
-            <div className="flex gap-1 w-full">
-    			<input
-                    className="bg-slate-500 w-full p-3 rounded-md"
-    			    type="search"
-    			    value={searchTerm}
-    			    onChange={handleSearchChange}
-    			    placeholder="Search tracks"
-    			/>
-    			{/*<button onClick={handleSearch}>Search</button>*/}
+        <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col">
+    			<h2 className="font-bold text-4xl my-2">Search Songs</h2>
+                <div className="flex gap-1 w-full">
+        			<input
+                        className="bg-slate-500 w-full p-3 rounded-md"
+        			    type="search"
+        			    value={searchTerm}
+        			    onChange={handleSearchChange}
+        			    placeholder="Search tracks"
+        			/>
+                </div>
             </div>
 
 			<div className="flex flex-col gap-4">

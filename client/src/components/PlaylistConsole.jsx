@@ -24,8 +24,31 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
 
     return (
         <>
-            <div className="search-console">
-                <h2 className="font-bold text-4xl my-2">Playlists</h2>
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                    <h2 className="font-bold text-4xl my-2">Playlists</h2>
+                    <Button className="border-2 border-white rounded-md hover:bg-white hover:text-slate-950" label="New Playlist" onClick={() => setShowForm(true)} />
+                </div>
+
+                {showForm && (
+                    <div className="flex flex-col gap-2">
+                        <input
+                            className="bg-slate-500 w-full p-3 rounded-md"
+                            type="text"
+                            placeholder="Enter playlist title"
+                            value={playlistTitle}
+                            onChange={(e) => setPlaylistTitle(e.target.value)}
+                        />
+                        <input
+                            className="bg-slate-500 w-full p-3 rounded-md"
+                            type="text"
+                            placeholder="Thumbnail URL (optional)"
+                            value={thumbnailUrl}
+                            onChange={(e) => setThumbnailUrl(e.target.value)}
+                        />
+                        <Button className="border-2 border-white rounded-md hover:bg-white hover:text-slate-950" label="Create Playlist" onClick={handleCreatePlaylist} />
+                    </div>
+                )}
 
                 <div className="flex flex-col gap-4">
                     {playlists.map(playlist =>
@@ -34,26 +57,8 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                             <p className="truncate">{playlist.name}</p>
                         </div>
                     )}
-                    <Button label="New Playlist" onClick={() => setShowForm(true)} />
                 </div>
             </div>
-            {showForm && (
-                <div className="flex flex-col gap-2">
-                    <input
-                        type="text"
-                        placeholder="Enter playlist title"
-                        value={playlistTitle}
-                        onChange={(e) => setPlaylistTitle(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Thumbnail URL (optional)"
-                        value={thumbnailUrl}
-                        onChange={(e) => setThumbnailUrl(e.target.value)}
-                    />
-                    <Button label="Create Playlist" onClick={handleCreatePlaylist} />
-                </div>
-            )}
         </>
     );
 }

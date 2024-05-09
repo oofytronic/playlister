@@ -293,9 +293,12 @@ function App() {
                 </div>
 
                 <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
-                	<div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-end gap-2 list-none py-4">
-                    	<li><button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button></li>
-						<li><button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button></li>
+                	<div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4">
+                		<p className="font-bold">Quick View</p>
+                		<div className="flex gap-2">
+	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button>
+							<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button>
+						</div>
 					</div>
                     {activeConsole === 'playlists' &&
                     <PlaylistConsole
