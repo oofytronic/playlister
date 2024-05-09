@@ -56,16 +56,9 @@ function App() {
 	        return;
 	    }
 
-	    // Find the playlist by id
-	    const playlist = playlists.find(p => p.id === playlistId);
-	    if (!playlist) {
-	        console.error('Playlist not found');
-	        return;
-	    }
-
 	    // Ensure playlist.tracks is treated as an array
-	    const tracks = Array.isArray(playlist.tracks) ? playlist.tracks : [];
-	    const track = tracks.find(t => t.id === trackId);
+	    const tracks = Array.isArray(activePlaylist.tracks) ? activePlaylist.tracks : [];
+	    const track = tracks.find(t => t.track.id === trackId);
 	    if (!track) {
 	        console.error('Track not found');
 	        return;
@@ -81,7 +74,7 @@ function App() {
 	            'Content-Type': 'application/json'
 	        },
 	        body: JSON.stringify({
-	            tracks: [{ uri: track.uri }]
+	            tracks: [{ uri: track.track.uri }]
 	        })
 	    };
 
@@ -94,7 +87,7 @@ function App() {
 	        // Update local state only if the Spotify API call was successful
 	        const updatedPlaylists = playlists.map(p => {
 	            if (p.id === playlistId) {
-	                const updatedTracks = tracks.filter(t => t.id !== trackId);
+	                const updatedTracks = tracks.filter(t => t.track.id !== trackId);
 	                return { ...p, tracks: updatedTracks };
 	            }
 	            return p;
@@ -106,7 +99,7 @@ function App() {
 	        if (activePlaylist && activePlaylist.id === playlistId) {
 	            setActivePlaylist({
 	                ...activePlaylist,
-	                tracks: activePlaylist.tracks.filter(t => t.id !== trackId)
+	                tracks: activePlaylist.tracks.filter(t => t.track.id !== trackId)
 	            });
 	        }
 
@@ -115,30 +108,6 @@ function App() {
 	        console.error('Failed to delete track:', error);
 	    }
 	};
-
-    // const handleAddTrackToPlaylist = (track) => {
-	//     if (!activePlaylist) return; // No active playlist selected
-
-	//     const updatedPlaylists = playlists.map(playlist => {
-	//         if (playlist.id === activePlaylist.id) {
-	//             // Prevent adding duplicate tracks
-	//             if (!playlist.tracks.find(t => t.id === track.id)) {
-	//                 return { ...playlist, tracks: [...playlist.tracks, track] };
-	//             }
-	//         }
-	//         return playlist;
-	//     });
-
-	//     setPlaylists(updatedPlaylists);
-
-	//     // Update activePlaylist to trigger re-render
-	//     if (!activePlaylist.tracks.find(t => t.id === track.id)) {
-	//         setActivePlaylist({
-	//             ...activePlaylist,
-	//             tracks: [...activePlaylist.tracks, track]
-	//         });
-	//     }
-	// };
 
 	const handleAddTrackToPlaylist = async (track) => {
 	    if (!activePlaylist) {
@@ -153,7 +122,7 @@ function App() {
 	    }
 
 	    // Check for existing Spotify track in the playlist to avoid duplicates
-	    if (activePlaylist.tracks.find(t => t.id === track.id)) {
+	    if (activePlaylist.tracks.find(t => t.track.id === track.id)) {
 	        alert('Track already exists in the playlist');
 	        return;
 	    }
@@ -189,19 +158,19 @@ function App() {
 	        const updatedPlaylists = playlists.map(playlist => {
 	            if (playlist.id === activePlaylist.id) {
 	                // Ensure playlist.tracks is an array
-	                const newTracks = Array.isArray(playlist.tracks) ? [...playlist.tracks] : [];
+	                let newTracks = Array.isArray(playlist.tracks) ? [...playlist.tracks] : [];
 	                newTracks.push(track);
 	                return { ...playlist, tracks: newTracks };
 	            }
+
 	            return playlist;
 	        });
 
 	        setPlaylists(updatedPlaylists);
 
-	        // Update activePlaylist to trigger re-render
 	        setActivePlaylist(prev => ({
 	            ...prev,
-	            tracks: [...prev.tracks, track]
+	            tracks: [...(prev.tracks || []), track]
 	        }));
 
 	        console.log('Track added successfully');
