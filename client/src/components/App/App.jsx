@@ -79,66 +79,8 @@ function App() {
 	    if (activePlaylist && activePlaylist.id === playlistId) {
 	        setActivePlaylist(prev => ({ ...prev, name: newName }));
 	    }
-	};
 
-    const handleDeleteTrack = async (playlistId, trackId) => {
-	    const token = window.localStorage.getItem('spotify_access_token');
-	    if (!token) {
-	        console.error('No access token available');
-	        return;
-	    }
-
-	    // Ensure playlist.tracks is treated as an array
-	    const tracks = Array.isArray(activePlaylist.tracks) ? activePlaylist.tracks : [];
-	    const track = tracks.find(t => t.track.id === trackId);
-	    if (!track) {
-	        console.error('Track not found');
-	        return;
-	    }
-
-	    // Spotify API endpoint to remove tracks from a playlist
-	    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
-
-	    const requestOptions = {
-	        method: 'DELETE',
-	        headers: {
-	            'Authorization': `Bearer ${token}`,
-	            'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({
-	            tracks: [{ uri: track.track.uri }]
-	        })
-	    };
-
-	    try {
-	        const response = await fetch(deleteUrl, requestOptions);
-	        if (!response.ok) {
-	            throw new Error(`HTTP error! Status: ${response.status}`);
-	        }
-
-	        // Update local state only if the Spotify API call was successful
-	        const updatedPlaylists = playlists.map(p => {
-	            if (p.id === playlistId) {
-	                const updatedTracks = tracks.filter(t => t.track.id !== trackId);
-	                return { ...p, tracks: updatedTracks };
-	            }
-	            return p;
-	        });
-
-	        setPlaylists(updatedPlaylists);
-
-	        // Update activePlaylist to trigger re-render
-	        if (activePlaylist && activePlaylist.id === playlistId) {
-	            setActivePlaylist({
-	                ...activePlaylist,
-	                tracks: activePlaylist.tracks.filter(t => t.track.id !== trackId)
-	            });
-	        }
-
-	        console.log('Track deleted successfully');
-	    } catch (error) {
-	        console.error('Failed to delete track:', error);
-	    }
+	    console.log('Playlist name updated successfully');
 	};
 
 	const handleAddTrackToPlaylist = async (track) => {
@@ -208,6 +150,66 @@ function App() {
 	        console.log('Track added successfully');
 	    } catch (error) {
 	        console.error('Failed to add track:', error);
+	    }
+	};
+
+    const handleDeleteTrack = async (playlistId, trackId) => {
+	    const token = window.localStorage.getItem('spotify_access_token');
+	    if (!token) {
+	        console.error('No access token available');
+	        return;
+	    }
+
+	    // Ensure playlist.tracks is treated as an array
+	    const tracks = Array.isArray(activePlaylist.tracks) ? activePlaylist.tracks : [];
+	    const track = tracks.find(t => t.track.id === trackId);
+	    if (!track) {
+	        console.error('Track not found');
+	        return;
+	    }
+
+	    // Spotify API endpoint to remove tracks from a playlist
+	    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+	    const requestOptions = {
+	        method: 'DELETE',
+	        headers: {
+	            'Authorization': `Bearer ${token}`,
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	            tracks: [{ uri: track.track.uri }]
+	        })
+	    };
+
+	    try {
+	        const response = await fetch(deleteUrl, requestOptions);
+	        if (!response.ok) {
+	            throw new Error(`HTTP error! Status: ${response.status}`);
+	        }
+
+	        // Update local state only if the Spotify API call was successful
+	        const updatedPlaylists = playlists.map(p => {
+	            if (p.id === playlistId) {
+	                const updatedTracks = tracks.filter(t => t.track.id !== trackId);
+	                return { ...p, tracks: updatedTracks };
+	            }
+	            return p;
+	        });
+
+	        setPlaylists(updatedPlaylists);
+
+	        // Update activePlaylist to trigger re-render
+	        if (activePlaylist && activePlaylist.id === playlistId) {
+	            setActivePlaylist({
+	                ...activePlaylist,
+	                tracks: activePlaylist.tracks.filter(t => t.track.id !== trackId)
+	            });
+	        }
+
+	        console.log('Track deleted successfully');
+	    } catch (error) {
+	        console.error('Failed to delete track:', error);
 	    }
 	};
 
@@ -325,7 +327,7 @@ function App() {
             <div className="grid-area">
             	<Nav />
 
-                <div className="flex flex-col gap-4 overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
+                <div className="flex flex-col gap-4 bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
                     <div className="componentArea">
                         {activePlaylist &&
                         <Playlist
@@ -338,8 +340,8 @@ function App() {
                     </div>
                 </div>
 
-                <div className="relative console overflow-y-scroll border-white border-2 rounded-md px-4 pb-4">
-                	<div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4">
+                <div className="relative console bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
+                	<div className="bg-slate-950/70 sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
                 		<p className="font-bold">Quick View</p>
                 		<div className="flex gap-2">
 	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button>

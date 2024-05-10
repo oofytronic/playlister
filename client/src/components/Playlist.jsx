@@ -47,7 +47,6 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
             // Call onUpdatePlaylistName to update the local state if necessary
             onUpdatePlaylistName(playlist.id, editedName);
             setIsEditing(false);
-            console.log('Playlist name updated successfully');
         } catch (error) {
             console.error('Failed to update playlist name:', error);
         }
@@ -71,7 +70,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
 
     return (
         <div className="relative flex flex-col gap-2 color-white w-full">
-            <div className="bg-gradient-to-b from-slate-950 from-70% to-transparent sticky top-0 flex justify-between w-full py-4">
+            <div className="bg-slate-950/70 sticky top-0 flex justify-between w-full py-4 px-4">
                 <h1 className="text-4xl mt-2 font-bold">Current Playlist</h1>
 
                 <div className="flex gap-2 items-center">
@@ -80,7 +79,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                     <Button className="bg-slate-950 border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
                 </div>
             </div>
-            <div className="flex gap-2 py-2">
+            <div className="flex gap-2 py-2 px-4">
                 <img className="rounded-md" style={{ width: '150px', height: '150px' }} src={playlist.thumbnail} alt="Playlist" />
                 {isEditing ? (
                     <>
@@ -94,7 +93,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                     </>
                 )}
             </div>
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full px-4">
                 {playlist.tracks.map(track =>
                     <Track
                         track={track.track}

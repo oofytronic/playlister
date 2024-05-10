@@ -8,7 +8,7 @@ import { faMusic } from '@fortawesome/free-solid-svg-icons';
 function Nav({onChangeConsole}) {
 
 	return (
-		<nav className="flex flex-col items-center justify-between gap-2 border-white border-2 rounded-md p-4">
+		<nav className="flex flex-col items-center justify-between gap-2 bg-gradient-to-br from-slate-950 to-slate-900 border-white border-2 rounded-md p-4">
 			<div className="flex flex-col items-center gap-4">
 				<div className="flex flex-col items-center">
 					<div className="flex gap-2 items-center">

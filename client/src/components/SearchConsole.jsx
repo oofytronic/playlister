@@ -48,7 +48,7 @@ function SearchConsole({onAddTrack}) {
     };
 
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full px-4">
             <div className="flex flex-col">
     			<h2 className="font-bold text-4xl my-2">Search Songs</h2>
                 <div className="flex gap-1 w-full">
