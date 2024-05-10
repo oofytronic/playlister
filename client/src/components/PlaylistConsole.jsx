@@ -3,24 +3,6 @@ import Button from './Button.jsx';
 
 function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
     const [showForm, setShowForm] = useState(false);
-    const [playlistTitle, setPlaylistTitle] = useState('');
-    const [thumbnailUrl, setThumbnailUrl] = useState('');
-
-    const handleCreatePlaylist = () => {
-        if (!playlistTitle) return; // Ensure there is a title
-
-        const newPlaylist = {
-            id: `playlist${playlists.length + 1}`, // Generating a simple unique ID
-            name: playlistTitle,
-            thumbnail: thumbnailUrl,
-            tracks: []
-        };
-        onAddPlaylist(newPlaylist);
-        onClickPlaylist(newPlaylist); // Set the new playlist as active
-        setPlaylistTitle(''); // Reset form fields
-        setThumbnailUrl('');
-        setShowForm(false); // Hide form after creation
-    };
 
     return (
         <>
@@ -31,23 +13,46 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                 </div>
 
                 {showForm && (
-                    <div className="flex flex-col gap-2">
+                    <form className="flex flex-col gap-2" onSubmit={onAddPlaylist}>
+                      <label>
+                        Title
                         <input
-                            className="bg-slate-500 w-full p-3 rounded-md"
-                            type="text"
-                            placeholder="Enter playlist title"
-                            value={playlistTitle}
-                            onChange={(e) => setPlaylistTitle(e.target.value)}
+                          className="bg-slate-500 w-full p-3 rounded-md"
+                          name="playlist_title"
+                          type="text"
+                          placeholder="Enter playlist title"
                         />
+                      </label>
+
+                      <label>
+                        Description
                         <input
-                            className="bg-slate-500 w-full p-3 rounded-md"
-                            type="text"
-                            placeholder="Thumbnail URL (optional)"
-                            value={thumbnailUrl}
-                            onChange={(e) => setThumbnailUrl(e.target.value)}
+                          className="bg-slate-500 w-full p-3 rounded-md"
+                          name="playlist_description"
+                          type="text"
+                          placeholder="Describe your playlist"
                         />
-                        <Button className="border-2 border-white rounded-md hover:bg-white hover:text-slate-950" label="Create Playlist" onClick={handleCreatePlaylist} />
-                    </div>
+                      </label>
+
+                      <label>
+                        Thumbnail
+                        <input
+                          className="bg-slate-500 w-full p-3 rounded-md"
+                          name="playlist_thumbnail"
+                          type="text"
+                          placeholder="Thumbnail URL (optional)"
+                        />
+                      </label>
+
+                      <label className="flex gap-2 items-center">
+                        Public
+                        <input type="checkbox" name="public" defaultChecked />
+                      </label>
+
+                      <button type="submit" className="mt-4 border-2 border-white rounded-md hover:bg-white hover:text-slate-950 px-4 py-2">
+                        Create Playlist
+                      </button>
+                    </form>
                 )}
 
                 <div className="flex flex-col gap-4">

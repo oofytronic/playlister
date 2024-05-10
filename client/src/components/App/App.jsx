@@ -8,9 +8,12 @@ import Button from '../Button';
 import Track from '../Track';
 
 function App() {
+	const [user, setUser] = useState(null);
     const [playlists, setPlaylists] = useState([]);
     const [activeConsole, setActiveConsole] = useState('playlists');
     const [activePlaylist, setActivePlaylist] = useState(null);
+
+    const fetchUser = async () => {}
 
     const fetchUserPlaylists = async () => {
 	    const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
@@ -189,9 +192,54 @@ function App() {
 	    }
 	};
 
-	const handleAddPlaylist = (newPlaylist) => {
-	    setPlaylists([...playlists, newPlaylist]);
-	};
+	async function handleAddPlaylist(e) {
+        e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const title = formData.get('playlist_title');
+      const description = formData.get('playlist_description');
+      const isPublic = formData.get('public');
+
+		if (!title.trim()) {
+			alert('Please enter a playlist title.');
+			return;
+		}
+
+	    const token = window.localStorage.getItem('spotify_access_token');
+	    if (!token) {
+	        console.error('No access token available');
+	        return;
+	    }
+
+	  // Define the request options
+	  const requestOptions = {
+	    method: 'POST',
+	    headers: {
+	      'Authorization': `Bearer ${token}`,
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify({
+	      name: title,  // The title for the new playlist
+	      description: description,
+	      public: isPublic === 'on' ? true : false
+	    })
+	  };
+
+	  try {
+	    // Use the Spotify API endpoint to create a playlist
+	    const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, requestOptions);
+	    if (!response.ok) {
+	      throw new Error(`HTTP error! Status: ${response.status}`);
+	    }
+	    const data = await response.json();
+	    console.log('Playlist created successfully:', data);
+
+	    // Return the playlist object or ID as needed
+	    return data;
+	  } catch (error) {
+	    console.error('Failed to create playlist:', error);
+	  }
+	}
 
 	const fetchPlaylistTracks = async (playlist) => {
 		const tracksUrl = playlist.tracks.href;
