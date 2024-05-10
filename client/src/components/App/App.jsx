@@ -13,7 +13,36 @@ function App() {
     const [activeConsole, setActiveConsole] = useState('playlists');
     const [activePlaylist, setActivePlaylist] = useState(null);
 
-    const fetchUser = async () => {}
+	const fetchUser = async () => {
+	  const token = window.localStorage.getItem('spotify_access_token');
+
+	  if (!token) {
+	    console.log('No access token available');
+	    return;
+	  }
+
+	  const requestOptions = {
+	    method: 'GET',
+	    headers: {
+	      'Authorization': `Bearer ${token}`,
+	      'Content-Type': 'application/json'
+	    }
+	  };
+
+	  try {
+	    const response = await fetch('https://api.spotify.com/v1/me', requestOptions);
+	    if (!response.ok) {
+	      throw new Error(`HTTP error! Status: ${response.status}`);
+	    }
+	    const data = await response.json();
+	    console.log('User Data:', data);
+
+	    // Process the data as needed
+	    return data;
+	  } catch (error) {
+	    console.error('Failed to fetch user data:', error);
+	  }
+	};
 
     const fetchUserPlaylists = async () => {
 	    const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
