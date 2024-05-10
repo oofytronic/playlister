@@ -341,7 +341,7 @@ function App() {
                 </div>
 
                 <div className="relative console bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
-                	<div className="bg-slate-950/70 sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
+                	<div className="bg-gradient-to-b from-70% from-slate-950/80 to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
                 		<p className="font-bold">Quick View</p>
                 		<div className="flex gap-2">
 	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button>

@@ -70,7 +70,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
 
     return (
         <div className="relative flex flex-col gap-2 color-white w-full">
-            <div className="bg-slate-950/70 sticky top-0 flex justify-between w-full py-4 px-4">
+            <div className="bg-gradient-to-b from-70% from-slate-950/80 to-transparent sticky top-0 flex justify-between w-full py-4 px-4">
                 <h1 className="text-4xl mt-2 font-bold">Current Playlist</h1>
 
                 <div className="flex gap-2 items-center">
