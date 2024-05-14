@@ -43,7 +43,7 @@ function App() {
 	    console.error('Failed to fetch user data:', error);
 	  }
 	};
-
+	
     const fetchUserPlaylists = async () => {
 	    const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
 	    if (!token) {
