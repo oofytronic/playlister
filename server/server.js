@@ -2,8 +2,8 @@ const fetch = require('node-fetch'); // Ensure you've installed node-fetch if us
 const express = require('express');
 const app = express();
 
-const client_id = '899a0e6b070d4b6eae06711c13eddd13'; // Your client id
-const client_secret = 'YOUR_CLIENT_SECRET'; // Your secret
+const client_id = '899a0e6b070d4b6eae06711c13eddd13';
+const client_secret = '';
 
 app.get('/spotify_token', async (req, res) => {
     const authOptions = {
