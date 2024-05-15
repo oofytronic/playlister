@@ -38,7 +38,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                     />
                   </label>
 
-                  <label>
+                  {/*<label>
                     Thumbnail
                     <input
                       className="bg-slate-500 w-full p-3 rounded-md"
@@ -46,7 +46,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
                       type="text"
                       placeholder="Thumbnail URL (optional)"
                     />
-                  </label>
+                  </label>*/}
 
                   <label className="flex gap-2 items-center">
                     Public

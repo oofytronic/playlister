@@ -10,9 +10,17 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
-function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlaylist, onTrackReorder }) {
+function Playlist({ user, playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlaylist, onTrackReorder }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedName, setEditedName] = useState(playlist.name);
+
+    let isUser;
+
+	if (user.id !== playlist.owner) {
+		isUser = false;
+	} else {
+		isUser = true;
+	}
 
     const handleNameChange = (event) => {
         setEditedName(event.target.value);
@@ -76,7 +84,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                 <div className="flex gap-2 items-center">
                     {/*<Button label={<FontAwesomeIcon icon={faFloppyDisk} />} />
                     <Button label={<FontAwesomeIcon icon={faArrowsRotate} />} />*/}
-                    <Button className="bg-slate-950 border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
+                    {isUser ? <Button className="bg-slate-950 border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} /> : ''}
                 </div>
             </div>
             <div className="flex gap-2 py-2 px-4">
@@ -89,7 +97,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                 ) : (
                     <>
                         <h2 className="text-2xl">{playlist.name}</h2>
-                        <Button label={<FontAwesomeIcon icon={faPenToSquare} />} onClick={() => setIsEditing(true)} />
+                        {isUser ? <Button label={<FontAwesomeIcon icon={faPenToSquare} />} onClick={() => setIsEditing(true)} /> : ''}
                     </>
                 )}
             </div>
@@ -101,8 +109,8 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                         onDragStart={handleDragStart}
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}>
-                        <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.track.id)} />
-                        <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} />
+                        {isUser ? <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.track.id)} /> : ""}
+                        {isUser ? <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} /> : ''}
                     </Track>
                 ) : ''}
             </div>

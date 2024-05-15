@@ -10,7 +10,7 @@ import Track from '../Track';
 function App() {
 	const [user, setUser] = useState(null);
     const [playlists, setPlaylists] = useState([]);
-    const [activeConsole, setActiveConsole] = useState('playlists');
+    const [activeConsole, setActiveConsole] = useState('');
     const [activePlaylist, setActivePlaylist] = useState(null);
 
 	const fetchUser = async () => {
@@ -339,7 +339,8 @@ function App() {
 	    	id: playlist.id,
 	    	name: playlist.name,
 	    	tracks: data.items,
-	    	thumbnail: getImageSrc(playlist.images)
+	    	thumbnail: getImageSrc(playlist.images),
+	    	owner: playlist.owner.id
 	    }
 
 	    setActivePlaylist(playlistObj);
@@ -360,10 +361,12 @@ function App() {
 	};
 
 	const showPlaylists = () => {
-		fetchUserPlaylists()
+		if (user) {
+			fetchUserPlaylists()
             .then(items => setPlaylists(items))
             .catch(error => console.error('Failed to fetch playlists:', error));
-		setActiveConsole('playlists')
+			setActiveConsole('playlists')
+		}
 	}
 
 	useEffect(() => {
@@ -393,6 +396,7 @@ function App() {
                     <div className="componentArea">
                         {activePlaylist &&
                         <Playlist
+                        	user = {user}
                             playlist={activePlaylist}
                             playlists={playlists}
                             onUpdatePlaylistName={onUpdatePlaylistName}
