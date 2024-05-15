@@ -4,8 +4,9 @@ import SpotifyAuth from './SpotifyAuth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
+import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
-function Nav({onChangeConsole}) {
+function Nav({user}) {
 
 	return (
 		<nav className="flex flex-col items-center justify-between gap-2 bg-gradient-to-br from-slate-950 to-slate-900 border-white border-2 rounded-md p-4">
@@ -19,7 +20,12 @@ function Nav({onChangeConsole}) {
 				</div>
 
 				<ul className="flex flex-col items-center text-center gap-2">
-					<li><SpotifyAuth /></li>
+					{user ? (
+					    <div className="flex flex-col items-start gap-1"><FontAwesomeIcon icon={faSpotify} className="text-emerald-400" /><p className="text-emerald-400">{user.display_name}</p></div>
+						) : (
+						<li><SpotifyAuth /></li>
+						)
+					}
 				</ul>
 			</div>
 

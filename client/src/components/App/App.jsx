@@ -341,7 +341,7 @@ function App() {
     return (
         <>
             <div className="grid-area">
-            	<Nav />
+            	<Nav user={user} />
 
                 <div className="flex flex-col gap-4 bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
                     <div className="componentArea">
