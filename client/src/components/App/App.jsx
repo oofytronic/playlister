@@ -85,8 +85,8 @@ function App() {
 
 	const handleAddTrackToPlaylist = async (track) => {
 	    if (!activePlaylist) {
-	    	alert('No Active Playlist. Please select a playlist before adding a song.')
-	    	return;
+	        alert('No Active Playlist. Please select a playlist before adding a song.');
+	        return;
 	    }
 
 	    // Initialize tracks as an empty array if it does not exist or is not iterable
@@ -128,12 +128,15 @@ function App() {
 	            throw new Error(`HTTP error! Status: ${response.status}`);
 	        }
 
+	        // Use the correct structure to update the local state with the new track URI
+	        const updatedTrack = { track: { uri: track.uri, id: track.id, name: track.name, artists: track.artists } };
+
 	        // Update local playlists and activePlaylist
 	        const updatedPlaylists = playlists.map(playlist => {
 	            if (playlist.id === activePlaylist.id) {
 	                // Ensure playlist.tracks is an array
 	                let newTracks = Array.isArray(playlist.tracks) ? [...playlist.tracks] : [];
-	                newTracks.push(track);
+	                newTracks.push(updatedTrack); // Use the structure with track object containing the URI
 	                return { ...playlist, tracks: newTracks };
 	            }
 
@@ -142,9 +145,10 @@ function App() {
 
 	        setPlaylists(updatedPlaylists);
 
+	        // Update activePlaylist to trigger re-render
 	        setActivePlaylist(prev => ({
 	            ...prev,
-	            tracks: [...(prev.tracks || []), track]
+	            tracks: [...(prev.tracks || []), updatedTrack] // Ensure prev.tracks is treated safely
 	        }));
 
 	        console.log('Track added successfully');
@@ -315,6 +319,18 @@ function App() {
 	    setPlaylists(updatedPlaylists);
 	    setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
 	};
+
+	useEffect(() => {
+		const getUserData = async () => {
+		  const userData = await fetchUser();
+		  if (userData) {
+		    console.log('Fetched User Data:', userData);
+		    setUser(userData);
+		  }
+		};
+
+		getUserData();
+	}, []);
 
 	useEffect(() => {
         fetchUserPlaylists()
