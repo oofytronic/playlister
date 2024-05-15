@@ -217,6 +217,11 @@ function App() {
 	};
 
 	const handleDeletePlaylist = async (playlistId) => {
+		const isConfirmed = window.confirm('Are you sure you want to delete this playlist?');
+
+		  if (!isConfirmed) {
+		    return; // Abort the deletion if the user clicks "Cancel"
+		  }
     const token = window.localStorage.getItem('spotify_access_token');
     if (!token) {
       console.error('No access token available');
