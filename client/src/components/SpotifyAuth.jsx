@@ -27,6 +27,7 @@ const SpotifyAuth = () => {
     }, []);
 
     const handleLogin = () => {
+        window.localStorage.setItem('spotify_access_token', '');
         const client_id = '899a0e6b070d4b6eae06711c13eddd13';
         const redirect_uri = encodeURIComponent('http://localhost:5173');
         const scopes = encodeURIComponent('ugc-image-upload playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-library-modify user-library-read user-read-email user-read-private'); // Scopes limit access for OAuth tokens

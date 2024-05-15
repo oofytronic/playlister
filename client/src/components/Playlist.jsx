@@ -74,13 +74,13 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                 <h1 className="text-4xl mt-2 font-bold">Current Playlist</h1>
 
                 <div className="flex gap-2 items-center">
-                    <Button label={<FontAwesomeIcon icon={faFloppyDisk} />} />
-                    <Button label={<FontAwesomeIcon icon={faArrowsRotate} />} />
+                    {/*<Button label={<FontAwesomeIcon icon={faFloppyDisk} />} />
+                    <Button label={<FontAwesomeIcon icon={faArrowsRotate} />} />*/}
                     <Button className="bg-slate-950 border-2 rounded-md border-red-500 hover:bg-red-500 px-4 py-2" label="Delete Playlist" onClick={() => onDeletePlaylist(playlist.id)} />
                 </div>
             </div>
             <div className="flex gap-2 py-2 px-4">
-                <img className="rounded-md" style={{ width: '150px', height: '150px' }} src={playlist.thumbnail} alt="Playlist" />
+                <img className="bg-slate-500 rounded-md" style={{ width: '150px', height: '150px' }} src={playlist.thumbnail} alt="Playlist" />
                 {isEditing ? (
                     <>
                         <input className="bg-slate-500 w-full p-3 rounded-md" type="text" value={editedName} onChange={handleNameChange} />
@@ -94,7 +94,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                 )}
             </div>
             <div className="flex flex-col gap-4 w-full px-4">
-                {playlist.tracks.map(track =>
+                {Array.isArray(playlist.tracks) ? playlist.tracks.map(track =>
                     <Track
                         track={track.track}
                         key={track.track.id}
@@ -104,7 +104,7 @@ function Playlist({ playlist, onUpdatePlaylistName, onDeleteTrack, onDeletePlayl
                         <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.track.id)} />
                         <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} />
                     </Track>
-                )}
+                ) : ''}
             </div>
         </div>
     );

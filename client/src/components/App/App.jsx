@@ -62,8 +62,7 @@ function App() {
 	    }
 
 	    const data = await response.json();
-	    console.log(data.items)
-	    return data.items; // This contains the array of playlists
+	    return data.items;
 	};
 
     const onUpdatePlaylistName = (playlistId, newName) => {
@@ -217,15 +216,43 @@ function App() {
 	    }
 	};
 
-	const handleDeletePlaylist = (playlistId) => {
-	    const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
-	    setPlaylists(updatedPlaylists);
+	const handleDeletePlaylist = async (playlistId) => {
+    const token = window.localStorage.getItem('spotify_access_token');
+    if (!token) {
+      console.error('No access token available');
+      return;
+    }
 
-	    // If the active playlist is the one being deleted, reset the activePlaylist
-	    if (activePlaylist && activePlaylist.id === playlistId) {
-	        setActivePlaylist(null);
-	    }
-	};
+    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const response = await fetch(deleteUrl, requestOptions);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Update local state only if the Spotify API call was successful
+      const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
+      setPlaylists(updatedPlaylists);
+
+      // If the active playlist is the one being deleted, reset the activePlaylist
+      if (activePlaylist && activePlaylist.id === playlistId) {
+        setActivePlaylist(null);
+      }
+
+      console.log('Playlist deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete playlist:', error);
+    }
+  };
 
 	async function handleAddPlaylist(e) {
         e.preventDefault();
@@ -234,6 +261,7 @@ function App() {
       const title = formData.get('playlist_title');
       const description = formData.get('playlist_description');
       const isPublic = formData.get('public');
+      const userId = user.id;
 
 		if (!title.trim()) {
 			alert('Please enter a playlist title.');
@@ -267,6 +295,7 @@ function App() {
 	      throw new Error(`HTTP error! Status: ${response.status}`);
 	    }
 	    const data = await response.json();
+	    setActivePlaylist(data)
 	    console.log('Playlist created successfully:', data);
 
 	    // Return the playlist object or ID as needed
@@ -296,11 +325,21 @@ function App() {
 
 	    const data = await response.json();
 
+		const getImageSrc = (images) => {
+		  if (!images || images.length === 0) {
+		    return ''; // Fallback URL or an empty string
+		  } else if (images.length > 1) {
+		    return images[1].url;
+		  } else {
+		    return images[0].url;
+		  }
+		};
+
 	    const playlistObj = {
 	    	id: playlist.id,
 	    	name: playlist.name,
 	    	tracks: data.items,
-	    	thumbnail: playlist.images.length > 1 ? playlist.images[1].url : playlist.images[0].url
+	    	thumbnail: getImageSrc(playlist.images)
 	    }
 
 	    setActivePlaylist(playlistObj);
@@ -319,6 +358,13 @@ function App() {
 	    setPlaylists(updatedPlaylists);
 	    setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
 	};
+
+	const showPlaylists = () => {
+		fetchUserPlaylists()
+            .then(items => setPlaylists(items))
+            .catch(error => console.error('Failed to fetch playlists:', error));
+		setActiveConsole('playlists')
+	}
 
 	useEffect(() => {
 		const getUserData = async () => {
@@ -360,7 +406,7 @@ function App() {
                 	<div className="bg-gradient-to-b from-70% from-slate-950/80 to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
                 		<p className="font-bold">Quick View</p>
                 		<div className="flex gap-2">
-	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('playlists')}>Playlists</button>
+	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={showPlaylists}>Playlists</button>
 							<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button>
 						</div>
 					</div>

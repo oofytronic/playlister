@@ -4,6 +4,11 @@ import Button from './Button.jsx';
 function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
     const [showForm, setShowForm] = useState(false);
 
+    const handleSubmit = (event) => {
+        onAddPlaylist(event);
+        setShowForm(false)
+    }
+
     return (
         <div className="flex flex-col gap-4 px-4">
             <div className="flex items-center gap-2">
@@ -12,7 +17,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
             </div>
 
             {showForm && (
-                <form className="flex flex-col gap-2" onSubmit={onAddPlaylist}>
+                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
                   <label>
                     Title
                     <input
@@ -57,7 +62,7 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
             <div className="flex flex-col gap-4">
                 {playlists.map(playlist =>
                     <div key={playlist.id} className="flex gap-4" onClick={() => onClickPlaylist(playlist)}>
-                        <img className="flex-none bg-slate-500 w-12 h-12 rounded-md" src={playlist.images.length > 1 ? playlist.images[1].url : playlist.images[0].url} alt="Thumbnail" />
+                        <img className="flex-none bg-slate-500 w-12 h-12 rounded-md" src={playlist.images?.[1]?.url || playlist.images?.[0]?.url || ''} alt="Thumbnail" />
                         <p className="truncate">{playlist.name}</p>
                     </div>
                 )}
