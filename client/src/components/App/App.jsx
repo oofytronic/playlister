@@ -217,47 +217,47 @@ function App() {
 	};
 
 	const handleDeletePlaylist = async (playlistId) => {
-	const isConfirmed = window.confirm('Are you sure you want to delete this playlist?');
+		const isConfirmed = window.confirm('Are you sure you want to delete this playlist?');
 
-	if (!isConfirmed) {
-		return;
-	}
-    const token = window.localStorage.getItem('spotify_access_token');
-    if (!token) {
-      console.error('No access token available');
-      return;
-    }
+		if (!isConfirmed) {
+			return;
+		}
+	    const token = window.localStorage.getItem('spotify_access_token');
+	    if (!token) {
+	      console.error('No access token available');
+	      return;
+	    }
 
-    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
+	    const deleteUrl = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
 
-    const requestOptions = {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    };
+	    const requestOptions = {
+	      method: 'DELETE',
+	      headers: {
+	        'Authorization': `Bearer ${token}`,
+	        'Content-Type': 'application/json'
+	      }
+	    };
 
-    try {
-      const response = await fetch(deleteUrl, requestOptions);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+	    try {
+	      const response = await fetch(deleteUrl, requestOptions);
+	      if (!response.ok) {
+	        throw new Error(`HTTP error! Status: ${response.status}`);
+	      }
 
-      // Update local state only if the Spotify API call was successful
-      const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
-      setPlaylists(updatedPlaylists);
+	      // Update local state only if the Spotify API call was successful
+	      const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
+	      setPlaylists(updatedPlaylists);
 
-      // If the active playlist is the one being deleted, reset the activePlaylist
-      if (activePlaylist && activePlaylist.id === playlistId) {
-        setActivePlaylist(null);
-      }
+	      // If the active playlist is the one being deleted, reset the activePlaylist
+	      if (activePlaylist && activePlaylist.id === playlistId) {
+	        setActivePlaylist(null);
+	      }
 
-      console.log('Playlist deleted successfully');
-    } catch (error) {
-      console.error('Failed to delete playlist:', error);
-    }
-  };
+	      console.log('Playlist deleted successfully');
+	    } catch (error) {
+	      console.error('Failed to delete playlist:', error);
+	    }
+  	};
 
 	async function handleAddPlaylist(e) {
         e.preventDefault();
@@ -300,7 +300,8 @@ function App() {
 	      throw new Error(`HTTP error! Status: ${response.status}`);
 	    }
 	    const data = await response.json();
-	    setActivePlaylist(data)
+	    console.log(data)
+	    setActivePlaylist(data);
 	    console.log('Playlist created successfully:', data);
 
 	    // Return the playlist object or ID as needed
