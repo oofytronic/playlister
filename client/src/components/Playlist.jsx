@@ -96,7 +96,7 @@ function Playlist({ user, playlist, onUpdatePlaylistName, onDeleteTrack, onDelet
                     </>
                 ) : (
                     <>
-                        <h2 className="text-2xl">{playlist.name}</h2>
+                        <h2 className="text-2xl font-semibold">{playlist.name}</h2>
                         {isUser ? <Button label={<FontAwesomeIcon icon={faPenToSquare} />} onClick={() => setIsEditing(true)} /> : ''}
                     </>
                 )}
