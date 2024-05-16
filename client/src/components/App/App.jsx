@@ -395,40 +395,46 @@ function App() {
 
     return (
         <>
-            <div className="grid-area">
-            	<Nav user={user} />
+            <div className={ user ? "grid-area" : "flex flex-col justify-center items-center h-dvh p-4"}>
 
-                <div className="flex flex-col gap-4 bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
-                    <div className="componentArea">
-                        {activePlaylist &&
-                        <Playlist
-                        	user = {user}
-                            playlist={activePlaylist}
-                            playlists={playlists}
-                            onUpdatePlaylistName={onUpdatePlaylistName}
-                            onDeleteTrack={handleDeleteTrack}
-                            onDeletePlaylist={handleDeletePlaylist}
-                            onTrackReorder={onTrackReorder} />}
-                    </div>
-                </div>
+            	{ user ? (
+            	<>
+            		<Nav user={user} />
+	                <div className="flex flex-col gap-4 bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
+	                    <div className="componentArea">
+	                        {activePlaylist &&
+	                        <Playlist
+	                        	user = {user}
+	                            playlist={activePlaylist}
+	                            playlists={playlists}
+	                            onUpdatePlaylistName={onUpdatePlaylistName}
+	                            onDeleteTrack={handleDeleteTrack}
+	                            onDeletePlaylist={handleDeletePlaylist}
+	                            onTrackReorder={onTrackReorder} />}
+	                    </div>
+	                </div>
 
-                <div className="relative console bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
-                	<div className="bg-gradient-to-b from-70% from-slate-950/80 to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
-                		<p className="font-bold">Quick View</p>
-                		<div className="flex gap-2">
-	                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={showPlaylists}>Playlists</button>
-							<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button>
+	                <div className="relative console bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
+	                	<div className="bg-gradient-to-b from-70% from-slate-950/80 to-transparent sticky top-0 flex justify-between items-center gap-2 list-none py-4 px-4">
+	                		<p className="font-bold">Quick View</p>
+	                		<div className="flex gap-2">
+		                    	<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={showPlaylists}>Playlists</button>
+								<button className="bg-slate-900 rounded-md px-4 py-2 hover:bg-slate-800" onClick={() => setActiveConsole('search')}>Search</button>
+							</div>
 						</div>
-					</div>
-                    {activeConsole === 'playlists' &&
-                    <PlaylistConsole
-                        playlists={playlists}
-                        onClickPlaylist={fetchPlaylistTracks}
-                        onAddPlaylist={handleAddPlaylist} />}
-                    {activeConsole === 'search' &&
-                    <SearchConsole
-                        onAddTrack={handleAddTrackToPlaylist} />}
-                </div>
+	                    {activeConsole === 'playlists' &&
+	                    <PlaylistConsole
+	                        playlists={playlists}
+	                        onClickPlaylist={fetchPlaylistTracks}
+	                        onAddPlaylist={handleAddPlaylist} />}
+	                    {activeConsole === 'search' &&
+	                    <SearchConsole
+	                        onAddTrack={handleAddTrackToPlaylist} />}
+	                </div>
+                </>
+            	) : (
+            		<Nav user={user} />
+            	)}
             </div>
         </>
     );

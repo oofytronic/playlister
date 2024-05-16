@@ -9,7 +9,7 @@ import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 function Nav({user}) {
 
 	return (
-		<nav className="flex flex-col items-center justify-between gap-2 bg-gradient-to-br from-slate-950 to-slate-900 border-white border-2 rounded-md p-4">
+		<nav className={ user ? "flex flex-col items-center justify-between gap-2 bg-gradient-to-br from-slate-950 to-slate-900 border-white border-2 rounded-md p-4" : "flex flex-col items-center justify-between gap-2 bg-gradient-to-br from-slate-950 to-slate-900 border-white border-2 rounded-md p-4 h-2/4 w-2/4" }>
 			<div className="flex flex-col items-center gap-4">
 				<div className="flex flex-col items-center">
 					<div className="flex gap-2 items-center">
