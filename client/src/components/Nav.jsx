@@ -31,7 +31,7 @@ function Nav({user}) {
 
 			<div className="flex gap-1">
 				<p>Made to Fly by</p>
-				<a href="https://feathermode.com"><img className="w-6" src="./feathermode-icon.png" alt="feathermode" /></a>
+				<a href="https://feathermode.com"><img className="w-6" src="./oof-icon.svg" alt="@oofbetold" /></a>
 			</div>
 		</nav>
 	)
