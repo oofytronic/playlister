@@ -157,6 +157,12 @@ function App() {
 	};
 
     const handleDeleteTrack = async (playlistId, trackId) => {
+    	const isConfirmed = window.confirm('Are you sure you want to delete this track?');
+
+		if (!isConfirmed) {
+			return;
+		}
+
 	    const token = window.localStorage.getItem('spotify_access_token');
 	    if (!token) {
 	        console.error('No access token available');
