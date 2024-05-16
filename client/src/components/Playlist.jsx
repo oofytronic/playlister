@@ -110,7 +110,7 @@ function Playlist({ user, playlist, onUpdatePlaylistName, onDeleteTrack, onDelet
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}>
                         {isUser ? <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.track.id)} /> : ""}
-                        {isUser ? <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} /> : ''}
+                        { /* {isUser ? <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} /> : ''} */}
                     </Track>
                 ) : ''}
             </div>
