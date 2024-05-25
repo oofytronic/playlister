@@ -599,20 +599,20 @@ video {
   height: 3rem;
 }
 
-.h-dvh {
-  height: 100dvh;
-}
-
-.h-full {
-  height: 100%;
-}
-
 .h-2\/4 {
   height: 50%;
 }
 
+.h-dvh {
+  height: 100dvh;
+}
+
 .w-12 {
   width: 3rem;
+}
+
+.w-2\/4 {
+  width: 50%;
 }
 
 .w-6 {
@@ -621,10 +621,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-2\/4 {
-  width: 50%;
 }
 
 .flex-none {
@@ -829,7 +825,7 @@ video {
 
 :root {
   --color-dark: rgb(3 7 18);
-  font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+  font-family: Superclarendon, 'Bookman Old Style', 'URW Bookman', 'URW Bookman L', 'Georgia Pro', Georgia, serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
