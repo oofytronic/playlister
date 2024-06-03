@@ -1,14 +1,26 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables
+
+
+console.log('CLIENT_ID:', process.env.CLIENT_ID);
+console.log('CLIENT_SECRET:', process.env.CLIENT_SECRET);
+console.log('REDIRECT_URI:', process.env.REDIRECT_URI);
 
 
 // const client_id = 'e65e3c5df0184e0f9d104b88da16b5fd';
 // const redirect_uri = encodeURIComponent('https://bridgebeat.app');
-const client_id = 'e65e3c5df0184e0f9d104b88da16b5fd';
-const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = 'http://localhost:8888/callback';
+const client_id = process.env.CLIENT_TEST_ID;
+const client_secret = process.env.CLIENT_TEST_SECRET;
+const redirect_uri = process.env.REDIRECT_TEST_URL;
+
+if (!client_id || !client_secret || !redirect_uri) {
+  console.error('Missing necessary environment variables');
+  process.exit(1);
+}
 
 const app = express();
 app.use(cookieParser());
