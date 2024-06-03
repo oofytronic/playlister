@@ -1,56 +1,48 @@
-const fetch = require('node-fetch'); // Ensure you've installed node-fetch if using in Node.js
-const express = require('express');
-const app = express();
+import express from 'express';
 
-const client_id = '899a0e6b070d4b6eae06711c13eddd13';
-const client_secret = '';
+const client_id = 'e65e3c5df0184e0f9d104b88da16b5fd';
+const redirect_uri = encodeURIComponent('https://bridgebeat.app');
 
-app.get('/spotify_token', async (req, res) => {
-    const authOptions = {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'grant_type=client_credentials'
-    };
+let app = express();
 
-    try {
-        const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
-        const data = await response.json();
-        res.json(data);
-    } catch (error) {
-        res.status(400).json({ error: 'Failed to retrieve access token' });
-    }
+app.get('/login', function(req, res) {
+
+  let state = generateRandomString(16);
+  const scope = encodeURIComponent('ugc-image-upload playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-library-modify user-library-read user-read-email user-read-private');
+
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state
+    }));
 });
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
+app.get('/callback', function(req, res) {
 
+  var code = req.query.code || null;
+  var state = req.query.state || null;
 
-app.get('/search', async (req, res) => {
-    const { token, q } = req.query; // Assume token is passed in query and user's search query as 'q'
-
-    if (!token || !q) {
-        return res.status(400).json({ error: 'Missing token or query' });
-    }
-
-    const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track`;
-    const searchOptions = {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
+  if (state === null) {
+    res.redirect('/#' +
+      querystring.stringify({
+        error: 'state_mismatch'
+      }));
+  } else {
+    var authOptions = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+      },
+      json: true
     };
-
-    try {
-        const response = await fetch(searchUrl, searchOptions);
-        const data = await response.json();
-        res.json(data.tracks.items); // Sending only the tracks array to the client
-    } catch (error) {
-        res.status(400).json({ error: 'Failed to search' });
-    }
+  }
 });
