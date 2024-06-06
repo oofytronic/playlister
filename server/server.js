@@ -33,6 +33,11 @@ function generateRandomString(length) {
 
 const stateKey = 'spotify_auth_state';
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Spotify Auth Server!');
+});
+
+
 app.get('/login', (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -77,16 +82,36 @@ app.get('/callback', async (req, res) => {
       const access_token = data.access_token;
       const refresh_token = data.refresh_token;
 
-      res.redirect('/#' +
-        new URLSearchParams({
-          access_token: access_token,
-          refresh_token: refresh_token
-        }).toString());
+      res.redirect(`http://localhost:5173#access_token=${access_token}&refresh_token=${refresh_token}`);
     } catch (error) {
       res.redirect('/#error=invalid_token');
     }
   }
 });
+
+app.post('/refresh_token', async (req, res) => {
+  const { refresh_token } = req.body;
+  const authOptions = {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + Buffer.from(`${client_id}:${client_secret}`).toString('base64')
+    }
+  };
+
+  try {
+    const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to refresh token' });
+  }
+});
+
 
 const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
