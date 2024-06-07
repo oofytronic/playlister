@@ -5,7 +5,7 @@ const SpotifyAuth = () => {
       const refresh_token = localStorage.getItem('spotify_refresh_token');
       if (!refresh_token) {
         // Redirect to login if refresh token is not available
-        window.location.href = 'http://204.48.24.192/login';
+        window.location.href = '/';
         return;
       }
 
