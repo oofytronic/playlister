@@ -5,12 +5,12 @@ const SpotifyAuth = () => {
       const refresh_token = localStorage.getItem('spotify_refresh_token');
       if (!refresh_token) {
         // Redirect to login if refresh token is not available
-        window.location.href = 'http://localhost:8888/login';
+        window.location.href = 'http://204.48.24.192/login';
         return;
       }
 
       try {
-        const response = await fetch('http://localhost:8888/refresh_token', {
+        const response = await fetch('http://204.48.24.192/refresh_token', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -23,11 +23,11 @@ const SpotifyAuth = () => {
           return data.access_token;
         } else {
           // Redirect to login if unable to refresh token
-          window.location.href = 'http://localhost:8888/login';
+          window.location.href = 'http://204.48.24.192/login';
         }
       } catch (error) {
         console.error('Error refreshing access token:', error);
-        window.location.href = 'http://localhost:8888/login';
+        window.location.href = 'http://204.48.24.192/login';
       }
     }
 
