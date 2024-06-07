@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 // Load environment variables from the .env file
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: './.env' });
 
 const PORT = process.env.PORT || 8888;
 const client_id = process.env.CLIENT_TEST_ID;
