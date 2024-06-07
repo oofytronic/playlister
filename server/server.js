@@ -80,7 +80,7 @@ app.get('/callback', async (req, res) => {
       const access_token = data.access_token;
       const refresh_token = data.refresh_token;
 
-      res.redirect(`http://localhost:5173#access_token=${access_token}&refresh_token=${refresh_token}`);
+      res.redirect(`https://bridgebeat.app#access_token=${access_token}&refresh_token=${refresh_token}`);
     } catch (error) {
       res.redirect('/#error=invalid_token');
     }
