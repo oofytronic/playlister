@@ -111,6 +111,5 @@ app.post('/refresh_token', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(client_id);
   console.log(`Server running on port ${PORT}`);
 });
