@@ -23,11 +23,11 @@ const SpotifyAuth = () => {
           return data.access_token;
         } else {
           // Redirect to login if unable to refresh token
-          window.location.href = 'http://204.48.24.192/login';
+          window.location.href = '/';
         }
       } catch (error) {
         console.error('Error refreshing access token:', error);
-        window.location.href = 'http://204.48.24.192/login';
+        window.location.href = '/';
       }
     }
 
