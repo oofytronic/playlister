@@ -7,8 +7,7 @@ import path from 'path';
 // Load environment variables from the .env file
 dotenv.config({ path: '../.env' });
 
-// const client_id = 'e65e3c5df0184e0f9d104b88da16b5fd';
-// const redirect_uri = encodeURIComponent('https://bridgebeat.app');
+const PORT = process.env.PORT || 8888;
 const client_id = process.env.CLIENT_TEST_ID;
 const client_secret = process.env.CLIENT_TEST_SECRET;
 const redirect_uri = process.env.REDIRECT_TEST_URI;
@@ -36,7 +35,6 @@ const stateKey = 'spotify_auth_state';
 app.get('/', (req, res) => {
   res.send('Welcome to the Spotify Auth Server!');
 });
-
 
 app.get('/login', (req, res) => {
   const state = generateRandomString(16);
@@ -112,8 +110,6 @@ app.post('/refresh_token', async (req, res) => {
   }
 });
 
-
-const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

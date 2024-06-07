@@ -1,56 +1,71 @@
 import { useEffect } from 'react';
 
 const SpotifyAuth = () => {
-    // useEffect(() => {
-    //     const hash = window.location.hash;
-    //     let token = window.localStorage.getItem('spotify_access_token');
-
-    //     if (!token && hash) {
-    //         token = hash.substring(1).split('&').find(elem => elem.startsWith('access_token')).split('=')[1];
-    //         window.location.hash = ''; // Clear hash in URL
-    //         window.localStorage.setItem('spotify_access_token', token);
-    //     }
-
-    //     if (token) {
-    //         if (token !== window.localStorage.getItem('spotify_access_token')) {
-    //            window.localStorage.setItem('spotify_access_token', token); 
-    //         } else {
-    //             console.log('Already logged in')
-    //         }
-    //     }
-
-    //     const error = new URLSearchParams(window.location.hash).get('error');
-    //     if (error) {
-    //         console.error('Error during authentication:', error);
-    //         // Handle errors here, such as showing a message to the user
-    //     }
-    // }, []);
-
-    useEffect(() => {
-        const hash = window.location.hash;
-        if (hash) {
-          const params = new URLSearchParams(hash.substring(1));
-          const access_token = params.get('access_token');
-          if (access_token) {
-            localStorage.setItem('spotify_access_token', access_token);
-            window.location.hash = ''; // Remove the token from the URL
-          }
-        }
-      }, []);
-
-    const handleLogin = () => {
+    async function refreshAccessToken() {
+      const refresh_token = localStorage.getItem('spotify_refresh_token');
+      if (!refresh_token) {
+        // Redirect to login if refresh token is not available
         window.location.href = 'http://localhost:8888/login';
-        // window.localStorage.setItem('spotify_access_token', '');
-        // // const client_id = '899a0e6b070d4b6eae06711c13eddd13';
-        // // const redirect_uri = encodeURIComponent('http://localhost:5173');
-        // const client_id = 'e65e3c5df0184e0f9d104b88da16b5fd';
-        // const redirect_uri = encodeURIComponent('https://bridgebeat.app');
-        // const scopes = encodeURIComponent('ugc-image-upload playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public user-library-modify user-library-read user-read-email user-read-private'); // Scopes limit access for OAuth tokens
-        // const responseType = 'token';
+        return;
+      }
 
-        // const authUrl = `https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes}&response_type=${responseType}&show_dialog=true`;
-        // window.location = authUrl;
-    };
+      try {
+        const response = await fetch('http://localhost:8888/refresh_token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ refresh_token }),
+        });
+        const data = await response.json();
+        if (data.access_token) {
+          localStorage.setItem('spotify_access_token', data.access_token);
+          return data.access_token;
+        } else {
+          // Redirect to login if unable to refresh token
+          window.location.href = 'http://localhost:8888/login';
+        }
+      } catch (error) {
+        console.error('Error refreshing access token:', error);
+        window.location.href = 'http://localhost:8888/login';
+      }
+    }
+
+	const handleLogin = () => {
+	    window.location.href = 'http://204.48.24.192/login';
+	  };
+
+	  useEffect(() => {
+	    const hash = window.location.hash;
+	    if (hash) {
+	      const params = new URLSearchParams(hash.substring(1));
+	      const access_token = params.get('access_token');
+	      const refresh_token = params.get('refresh_token');
+	      if (access_token) {
+	        localStorage.setItem('spotify_access_token', access_token);
+	        localStorage.setItem('spotify_refresh_token', refresh_token);
+	        window.location.hash = '';
+	      }
+	    }
+	  }, []);
+
+	  useEffect(() => {
+	    const checkAndRefreshToken = async () => {
+	      let access_token = localStorage.getItem('spotify_access_token');
+	      if (!access_token) {
+	        access_token = await refreshAccessToken();
+	      }
+	    };
+
+	    checkAndRefreshToken();
+
+	    const interval = setInterval(async () => {
+	      console.log('Refreshing token...');
+	      await refreshAccessToken();
+	    }, 3300000); // 30 seconds
+
+	    return () => clearInterval(interval);
+	  }, []);
 
     return (
         <button className="bg-slate-900 text-white border-emerald-400 border-2 rounded-md hover:bg-emerald-400 px-4 py-2" onClick={handleLogin}>Log in with Spotify</button>

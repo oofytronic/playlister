@@ -16,7 +16,7 @@ function Nav({user}) {
 						<FontAwesomeIcon icon={faMusic} />
 						<p><a href="/" className="font-black text-2xl">BridgeBeat</a></p>
 					</div>
-					<p>0.1.0 | Alpha</p>
+					<p>0.2.0 | Alpha</p>
 				</div>
 
 				<ul className="flex flex-col items-center text-center gap-2">
