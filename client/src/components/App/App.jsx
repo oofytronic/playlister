@@ -9,77 +9,77 @@ import Track from '../Track';
 
 function App() {
 	const [user, setUser] = useState(null);
-    const [playlists, setPlaylists] = useState([]);
-    const [activeConsole, setActiveConsole] = useState('');
-    const [activePlaylist, setActivePlaylist] = useState(null);
+	const [playlists, setPlaylists] = useState([]);
+	const [activeConsole, setActiveConsole] = useState('');
+	const [activePlaylist, setActivePlaylist] = useState(null);
 
 	const fetchUser = async () => {
-	  const token = window.localStorage.getItem('spotify_access_token');
+		const token = window.localStorage.getItem('spotify_access_token');
 
-	  if (!token) {
-	    console.log('No access token available');
-	    return;
-	  }
+		if (!token) {
+			console.log('No access token available');
+			return;
+		}
 
-	  const requestOptions = {
-	    method: 'GET',
-	    headers: {
-	      'Authorization': `Bearer ${token}`,
-	      'Content-Type': 'application/json'
-	    }
-	  };
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${token}`,
+				'Content-Type': 'application/json'
+			}
+		};
 
-	  try {
-	    const response = await fetch('https://api.spotify.com/v1/me', requestOptions);
-	    if (!response.ok) {
-	      throw new Error(`HTTP error! Status: ${response.status}`);
-	    }
-	    const data = await response.json();
-	    console.log('User Data:', data);
+		try {
+			const response = await fetch('https://api.spotify.com/v1/me', requestOptions);
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+			const data = await response.json();
+			console.log('User Data:', data);
 
-	    // Process the data as needed
-	    return data;
-	  } catch (error) {
-	    console.error('Failed to fetch user data:', error);
-	  }
-	};
-	
-    const fetchUserPlaylists = async () => {
-	    const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
-	    if (!token) {
-	        console.log('No token available');
-	        return [];
-	    }
-
-	    const response = await fetch('https://api.spotify.com/v1/me/playlists', {
-	        headers: {
-	            'Authorization': `Bearer ${token}`
-	        }
-	    });
-
-	    if (!response.ok) {
-	        throw new Error(`HTTP error! Status: ${response.status}`);
-	    }
-
-	    const data = await response.json();
-	    return data.items;
+			// Process the data as needed
+			return data;
+		} catch (error) {
+			console.error('Failed to fetch user data:', error);
+		}
 	};
 
-    const onUpdatePlaylistName = (playlistId, newName) => {
-	    const updatedPlaylists = playlists.map(playlist => {
-	        if (playlist.id === playlistId) {
-	            return { ...playlist, name: newName };
-	        }
-	        return playlist;
-	    });
-	    setPlaylists(updatedPlaylists);
+	const fetchUserPlaylists = async () => {
+		const token = window.localStorage.getItem('spotify_access_token'); // Get the stored token
+		if (!token) {
+			console.log('No token available');
+			return [];
+		}
 
-	    // Update activePlaylist if it's the one being edited
-	    if (activePlaylist && activePlaylist.id === playlistId) {
-	        setActivePlaylist(prev => ({ ...prev, name: newName }));
-	    }
+		const response = await fetch('https://api.spotify.com/v1/me/playlists', {
+			headers: {
+				'Authorization': `Bearer ${token}`
+			}
+		});
 
-	    console.log('Playlist name updated successfully');
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		return data.items;
+	};
+
+	const onUpdatePlaylistName = (playlistId, newName) => {
+		const updatedPlaylists = playlists.map(playlist => {
+			if (playlist.id === playlistId) {
+				return { ...playlist, name: newName };
+			}
+			return playlist;
+		});
+		setPlaylists(updatedPlaylists);
+
+		// Update activePlaylist if it's the one being edited
+		if (activePlaylist && activePlaylist.id === playlistId) {
+			setActivePlaylist(prev => ({ ...prev, name: newName }));
+		}
+
+		console.log('Playlist name updated successfully');
 	};
 
 	const handleAddTrackToPlaylist = async (track) => {
@@ -156,8 +156,8 @@ function App() {
 	    }
 	};
 
-    const handleDeleteTrack = async (playlistId, trackId) => {
-    	const isConfirmed = window.confirm('Are you sure you want to delete this track?');
+	const handleDeleteTrack = async (playlistId, trackId) => {
+		const isConfirmed = window.confirm('Are you sure you want to delete this track?');
 
 		if (!isConfirmed) {
 			return;
@@ -263,16 +263,16 @@ function App() {
 	    } catch (error) {
 	      console.error('Failed to delete playlist:', error);
 	    }
-  	};
+		};
 
 	async function handleAddPlaylist(e) {
-        e.preventDefault();
+	    e.preventDefault();
 
-      const formData = new FormData(e.target);
-      const title = formData.get('playlist_title');
-      const description = formData.get('playlist_description');
-      const isPublic = formData.get('public');
-      const userId = user.id;
+	  const formData = new FormData(e.target);
+	  const title = formData.get('playlist_title');
+	  const description = formData.get('playlist_description');
+	  const isPublic = formData.get('public');
+	  const userId = user.id;
 
 		if (!title.trim()) {
 			alert('Please enter a playlist title.');
@@ -359,53 +359,53 @@ function App() {
 	};
 
 	const onTrackReorder = (draggedTrackId, targetTrackId) => {
-	    const updatedPlaylists = playlists.map(playlist => {
-	        if (playlist === activePlaylist) {
-	            const draggedTrackIndex = playlist.tracks.findIndex(t => t.id === draggedTrackId);
-	            const targetTrackIndex = playlist.tracks.findIndex(t => t.id === targetTrackId);
-	            const [removed] = playlist.tracks.splice(draggedTrackIndex, 1);
-	            playlist.tracks.splice(targetTrackIndex, 0, removed);
-	        }
-	        return playlist;
-	    });
-	    setPlaylists(updatedPlaylists);
-	    setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
+		const updatedPlaylists = playlists.map(playlist => {
+			if (playlist === activePlaylist) {
+				const draggedTrackIndex = playlist.tracks.findIndex(t => t.id === draggedTrackId);
+				const targetTrackIndex = playlist.tracks.findIndex(t => t.id === targetTrackId);
+				const [removed] = playlist.tracks.splice(draggedTrackIndex, 1);
+				playlist.tracks.splice(targetTrackIndex, 0, removed);
+			}
+			return playlist;
+		});
+		setPlaylists(updatedPlaylists);
+		setActivePlaylist({ ...activePlaylist, tracks: updatedPlaylists.find(p => p === activePlaylist).tracks });
 	};
 
 	const showPlaylists = () => {
 		if (user) {
-			fetchUserPlaylists()
-            .then(items => setPlaylists(items))
-            .catch(error => console.error('Failed to fetch playlists:', error));
-			setActiveConsole('playlists')
+		fetchUserPlaylists()
+			.then(items => setPlaylists(items))
+			.catch(error => console.error('Failed to fetch playlists:', error));
+		setActiveConsole('playlists')
 		}
 	}
 
 	useEffect(() => {
 		const getUserData = async () => {
-		  const userData = await fetchUser();
-		  if (userData) {
-		    console.log('Fetched User Data:', userData);
-		    setUser(userData);
-		  }
+			const userData = await fetchUser();
+			if (userData) {
+				console.log('Fetched User Data:', userData);
+				setUser(userData);
+			}
 		};
 
 		getUserData();
 	}, []);
 
 	useEffect(() => {
-        fetchUserPlaylists()
-            .then(items => setPlaylists(items))
-            .catch(error => console.error('Failed to fetch playlists:', error));
-    }, []);
+		fetchUserPlaylists()
+			.then(items => setPlaylists(items))
+			.catch(error => console.error('Failed to fetch playlists:', error));
+	}, []);
 
-    return (
-        <>
-            <div className={ user ? "grid-area" : "flex flex-col justify-center items-center h-dvh p-4"}>
+	return (
+	    <>
+	        <div className={ user ? "grid-area" : "flex flex-col justify-center items-center h-dvh p-4"}>
 
-            	{ user ? (
-            	<>
-            		<Nav user={user} />
+	        	{ user ? (
+	        	<>
+	        		<Nav user={user} />
 	                <div className="flex flex-col gap-4 bg-gradient-to-br from-slate-950 to-slate-900 overflow-y-scroll border-white border-2 rounded-md pb-4">
 	                    <div className="componentArea">
 	                        {activePlaylist &&
@@ -437,13 +437,13 @@ function App() {
 	                    <SearchConsole
 	                        onAddTrack={handleAddTrackToPlaylist} />}
 	                </div>
-                </>
-            	) : (
-            		<Nav user={user} />
-            	)}
-            </div>
-        </>
-    );
+	            </>
+	        	) : (
+	        		<Nav user={user} />
+	        	)}
+	        </div>
+	    </>
+	);
 }
 
 export default App;

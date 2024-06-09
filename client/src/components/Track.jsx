@@ -6,11 +6,11 @@ function Track({track, children, onDragStart, onDragOver, onDrop}) {
 			<div className="col-span-2 flex flex-col gap-1">
 				<p className="truncate font-semibold">{track.name}</p>
 				<p className="text-slate-400 truncate">
-				  {track.artists.map((artist, index) => (
-				    <span key={artist.id || index}>
-				      {artist.name}{index < track.artists.length - 1 ? ', ' : ''}
-				    </span>
-				  ))}
+					{track.artists.map((artist, index) => (
+						<span key={artist.id || index}>
+							{artist.name}{index < track.artists.length - 1 ? ', ' : ''}
+						</span>
+					))}
 				</p>
 			</div>
 			<div className="col-span-1 flex justify-end items-center">
