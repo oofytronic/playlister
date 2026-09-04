@@ -1,6 +1,9 @@
 import { createPkcePair, consumeStoredCodeVerifier, generateRandomString } from './pkce.js';
 
-const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+// Client ID is not a secret for a PKCE public client - it's visible in the
+// /authorize redirect regardless, so a build-time fallback here is fine.
+// It's still overridable via VITE_SPOTIFY_CLIENT_ID for other deployments.
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID || '3b905be80e5c4ccdb0b0a160dfe231d0';
 const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI || `${window.location.origin}/callback`;
 const AUTH_STATE_KEY = 'spotify_auth_state';
 

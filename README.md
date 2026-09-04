@@ -41,10 +41,16 @@ BridgeBeat is a single static site - there is no backend server.
 An earlier version of this project used an Express server purely to proxy the OAuth token
 exchange. PKCE removes the need for that entirely, which is why it's gone.
 
-## Setup
+## Live deployment
 
-1. Create an app at the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
-2. Add a Redirect URI matching `VITE_SPOTIFY_REDIRECT_URI` below (both your local dev URL and your production URL, once you deploy).
+Hosted on Vercel at [noterebirth.vercel.app](https://noterebirth.vercel.app), building straight
+from `trunk`.
+
+## Setup (local dev)
+
+1. Create an app at the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard),
+   or use the existing one for this project.
+2. Add `http://127.0.0.1:5173/callback` as a Redirect URI in the app settings.
 3. Copy `.env.example` to `.env` and fill in your values:
    ```
    VITE_SPOTIFY_CLIENT_ID=your_spotify_client_id
@@ -65,8 +71,14 @@ all paths to `index.html`:
 - Vercel: handled by the included `vercel.json`
 - Other hosts: check their docs for an SPA/history-mode fallback
 
-Remember to add your production URL as a Redirect URI in the Spotify Dashboard, and set
-`VITE_SPOTIFY_CLIENT_ID` / `VITE_SPOTIFY_REDIRECT_URI` as environment variables on the host.
+The Spotify Client ID is baked in as a build-time fallback (it's not a secret for a PKCE public
+client - it's visible in the login redirect regardless), so no environment variables are
+strictly required on the host. Set `VITE_SPOTIFY_CLIENT_ID` on the host instead if you want to
+point a deployment at a different Spotify app.
+
+The redirect URI is derived automatically from the deployed origin (`https://your-domain/callback`),
+so it doesn't need to be configured either - just make sure that exact `/callback` URL for your
+production domain is added as a Redirect URI in the Spotify Dashboard.
 
 ## License
 
