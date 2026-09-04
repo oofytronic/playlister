@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button.jsx';
 
-function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
+function PlaylistConsole({playlists, isLoading, error, onClickPlaylist, onAddPlaylist}) {
 	const [showForm, setShowForm] = useState(false);
 
 	const handleSubmit = (event) => {
@@ -59,11 +59,20 @@ function PlaylistConsole({playlists, onClickPlaylist, onAddPlaylist}) {
 				</form>
 			)}
 
+			{isLoading && <p className="text-slate-400">Loading playlists...</p>}
+			{error && <p className="text-red-400">{error}</p>}
+			{!isLoading && !error && playlists.length === 0 && (
+				<p className="text-slate-400">No playlists yet - create one above.</p>
+			)}
+
 			<div className="flex flex-col gap-4">
 				{playlists.map(playlist =>
-					<div key={playlist.id} className="flex gap-4" onClick={() => onClickPlaylist(playlist)}>
+					<div key={playlist.id} className="flex gap-4 cursor-pointer hover:bg-slate-800 rounded-md p-1 -m-1" onClick={() => onClickPlaylist(playlist)}>
 						<img className="flex-none bg-slate-500 w-12 h-12 rounded-md" src={playlist.images?.[1]?.url || playlist.images?.[0]?.url || ''} alt="Thumbnail" />
-						<p className="truncate">{playlist.name}</p>
+						<div className="flex flex-col truncate">
+							<p className="truncate">{playlist.name}</p>
+							<p className="text-slate-400 text-sm">{playlist.tracks?.total ?? 0} tracks</p>
+						</div>
 					</div>
 				)}
 			</div>

@@ -80,15 +80,21 @@ function Playlist({ user, playlist, onUpdatePlaylistName, onDeleteTrack, onDelet
 				)}
 			</div>
 			<div className="flex flex-col gap-4 w-full px-4">
-				{Array.isArray(playlist.tracks) ? playlist.tracks.map(track =>
+				{Array.isArray(playlist.tracks) && playlist.tracks.length === 0 && (
+					<p className="text-slate-400">This playlist is empty. Add tracks from Search.</p>
+				)}
+				{Array.isArray(playlist.tracks) ? playlist.tracks
+					// Local files removed from the account, or otherwise-unavailable
+					// tracks, come back with track: null - nothing to act on.
+					.filter((item) => item.track)
+					.map(item =>
 					<Track
-						track={track.track}
-						key={track.track.id}
+						track={item.track}
+						key={item.track.id}
 						onDragStart={handleDragStart}
 						onDragOver={handleDragOver}
 						onDrop={handleDrop}>
-						{isUser ? <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, track.track.id)} /> : ""}
-						{ /* {isUser ? <Button label={<FontAwesomeIcon icon={faEllipsisVertical} />} /> : ''} */}
+						{isUser ? <Button label={<FontAwesomeIcon icon={faTrash} />} onClick={() => onDeleteTrack(playlist.id, item.track.id)} /> : ""}
 					</Track>
 				) : ''}
 			</div>
