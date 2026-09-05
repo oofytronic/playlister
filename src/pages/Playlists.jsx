@@ -46,26 +46,30 @@ function Playlists() {
 		}
 	};
 
-	// Loads a playlist's full detail + full (paginated) track list fresh from
-	// Spotify, rather than trusting whatever's cached in the sidebar list.
-	const openPlaylist = async (playlistId) => {
+	// The playlist objects Spotify hands back from /me/playlists and from
+	// creating a playlist already carry everything we need (tracks.href,
+	// owner.id, snapshot_id, images) - no separate detail fetch required.
+	const openPlaylist = async (playlist) => {
 		setIsLoadingPlaylist(true);
 		setPlaylistError(null);
 		try {
-			const data = await spotifyFetch(`/playlists/${playlistId}`);
-			const tracks = await spotifyFetchAllPages(data.tracks.href);
+			if (!playlist?.tracks?.href) {
+				throw new Error('This playlist is missing track data from Spotify.');
+			}
+
+			const tracks = await spotifyFetchAllPages(playlist.tracks.href);
 
 			setActivePlaylist({
-				id: data.id,
-				name: data.name,
+				id: playlist.id,
+				name: playlist.name,
 				tracks,
-				thumbnail: getImageSrc(data.images),
-				owner: data.owner.id,
-				snapshotId: data.snapshot_id,
+				thumbnail: getImageSrc(playlist.images),
+				owner: playlist.owner.id,
+				snapshotId: playlist.snapshot_id,
 			});
 		} catch (error) {
 			console.error('Failed to load playlist:', error);
-			setPlaylistError('Could not load this playlist.');
+			setPlaylistError(error.message || 'Could not load this playlist.');
 			setActivePlaylist(null);
 		} finally {
 			setIsLoadingPlaylist(false);
@@ -160,7 +164,7 @@ function Playlists() {
 			});
 
 			setPlaylists((prev) => [data, ...prev]);
-			openPlaylist(data.id);
+			openPlaylist(data);
 		} catch (error) {
 			console.error('Failed to create playlist:', error);
 			alert('Failed to create playlist. Please try again.');
@@ -240,7 +244,7 @@ function Playlists() {
 						playlists={playlists}
 						isLoading={isLoadingPlaylists}
 						error={listError}
-						onClickPlaylist={(playlist) => openPlaylist(playlist.id)}
+						onClickPlaylist={openPlaylist}
 						onAddPlaylist={handleAddPlaylist}
 					/>
 				)}
