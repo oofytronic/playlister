@@ -73,7 +73,10 @@ function Playlists() {
 			// Logging the raw playlist object here since Spotify's response
 			// shape for it has been surprising more than once.
 			console.error('Failed to load playlist:', error, playlist);
-			setPlaylistError(error.message || 'Could not load this playlist.');
+			const message = error.status === 403
+				? "Spotify won't let this app read this playlist's tracks - this usually means it's owned by someone else and its tracks aren't shared with you."
+				: error.message || 'Could not load this playlist.';
+			setPlaylistError(message);
 			setActivePlaylist(null);
 		} finally {
 			setIsLoadingPlaylist(false);
