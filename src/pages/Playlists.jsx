@@ -47,28 +47,32 @@ function Playlists() {
 	};
 
 	// The playlist objects Spotify hands back from /me/playlists and from
-	// creating a playlist already carry everything we need (tracks.href,
-	// owner.id, snapshot_id, images) - no separate detail fetch required.
+	// creating a playlist already carry everything we need (owner.id,
+	// snapshot_id, images) - no separate detail fetch required. The one
+	// field that's proven unreliable is tracks.href, so we build that
+	// endpoint ourselves from the playlist id instead of trusting it.
 	const openPlaylist = async (playlist) => {
 		setIsLoadingPlaylist(true);
 		setPlaylistError(null);
 		try {
-			if (!playlist?.tracks?.href) {
-				throw new Error('This playlist is missing track data from Spotify.');
+			if (!playlist?.id) {
+				throw new Error('This playlist has no id.');
 			}
 
-			const tracks = await spotifyFetchAllPages(playlist.tracks.href);
+			const tracks = await spotifyFetchAllPages(`/playlists/${playlist.id}/tracks?limit=50`);
 
 			setActivePlaylist({
 				id: playlist.id,
 				name: playlist.name,
 				tracks,
 				thumbnail: getImageSrc(playlist.images),
-				owner: playlist.owner.id,
+				owner: typeof playlist.owner === 'string' ? playlist.owner : playlist.owner?.id,
 				snapshotId: playlist.snapshot_id,
 			});
 		} catch (error) {
-			console.error('Failed to load playlist:', error);
+			// Logging the raw playlist object here since Spotify's response
+			// shape for it has been surprising more than once.
+			console.error('Failed to load playlist:', error, playlist);
 			setPlaylistError(error.message || 'Could not load this playlist.');
 			setActivePlaylist(null);
 		} finally {
