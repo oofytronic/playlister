@@ -78,6 +78,10 @@ export async function login() {
 		scope: SCOPES,
 		code_challenge_method: 'S256',
 		code_challenge: codeChallenge,
+		// Force Spotify to always show the consent screen. Without this it can
+		// silently reuse an older, narrower grant instead of the current scope
+		// list, which is indistinguishable from a real permissions bug.
+		show_dialog: 'true',
 	});
 
 	window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
